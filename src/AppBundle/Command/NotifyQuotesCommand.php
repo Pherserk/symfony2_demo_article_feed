@@ -40,7 +40,9 @@ class NotifyQuotesCommand extends ContainerAwareCommand
         $quotes = $quotesRepo->findByCreationBeetween($from, $to);
 
         foreach ($quotes as $quote) {
-            $output->writeln(sprintf('Sending an email to: %s', $quote->getArticle()->getUser()->getEmail()));
+            if ($quote->getAuthor() !== $quote->getArticle()->getUser()) {
+                $output->writeln(sprintf('Sending an email to: %s', $quote->getArticle()->getUser()->getEmail()));
+            }
         }
 
         $output->writeln('Done');

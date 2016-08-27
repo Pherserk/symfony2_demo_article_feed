@@ -30,7 +30,7 @@ class NotifyQuotesCommandTest extends WebTestCase {
 
         $this->assertEquals(
             sprintf('Done'),
-            $outputLines[3]
+            $outputLines[2]
         );
     }
 }
