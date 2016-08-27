@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 class QuoteController extends Controller
 {
     /**
-     * @Route("/api/quotes")
+     * @Route("/api/quotes", options={"expose"=true})
      * @Method("POST")
      */
     public function newAction(Request $request)
@@ -32,7 +32,7 @@ class QuoteController extends Controller
         }
 
         # We fake the logged user for semplicity
-        $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneBy(['name' => 'Username1']);
+        $user = $this->get('app.fake_user_provider')->get('Username1');
 
         $em = $this->getDoctrine()->getManager();
         $article = $em->getRepository('AppBundle:Article')->find($data['articleId']);

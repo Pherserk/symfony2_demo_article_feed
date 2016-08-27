@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 class ArticleController extends Controller
 {
     /**
-     * @Route("/api/articles")
+     * @Route("/api/articles", options={"expose"=true})
      * @Method("POST")
      */
     public function newAction(Request $request)
@@ -32,7 +32,7 @@ class ArticleController extends Controller
         }
 
         # We fake the logged user for semplicity
-        $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneBy(['name' => 'Username1']);
+        $user = $this->get('app.fake_user_provider')->get('Username1');
 
         $article = new Article($user, $data['title'], $data['text']);
 
@@ -54,7 +54,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/api/articles/{articleId}")
+     * @Route("/api/articles/{articleId}", options={"expose"=true})
      * @Method("GET")
      */
     public function showAction(Request $request, $articleId)
