@@ -20,6 +20,8 @@ class AppKernel extends Kernel
 
             //Third parties
             new \JMS\SerializerBundle\JMSSerializerBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

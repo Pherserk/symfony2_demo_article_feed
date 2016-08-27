@@ -8,7 +8,7 @@ Goal:
  - This API should also include to retrieve an article and all its answers
  - Write some unit tests.
 
-Bonus 1:
+Bonus 1
  - Write a front page that will allow us to write an article (keep it simple)
 
 Bonus 2:
@@ -26,11 +26,20 @@ Instructions
 ============ 
  - Installation:
    - composer install
-   - app/console doc:sch:cre --env=test
-   - app/console doc:sch:cre --env=dev
+   - app/console cache:clear --env=dev
+   - app/console cache:clear --env=test
+   - app/console docrtine:schema:create --env=test
+   - app/console doctrine:schema:create --env=dev
+   - app/console assetic:dump --env=dev
+   - app/console assetic:dump --env=test
+   - app/console assets:install --symlink web
    
  - Run test suite: 
    - bin/phpunit -c app/
    
  - Launch the command that triggers the notification to the user with notifications older than 24 hours: 
    - app/console notify:quotes --hours=24
+   
+ - Try the write article route:
+   - app/console server:start --force
+   - point your browser to http://127.0.0.1:8000/app_dev.php/new

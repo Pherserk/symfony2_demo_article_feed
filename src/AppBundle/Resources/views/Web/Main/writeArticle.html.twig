@@ -1,0 +1,47 @@
+{% extends 'AppBundle:Web:base.html.twig' %}
+
+{% block body %}
+    <form id="article-from" action="{{ path('app_web_main_writearticle') }}" method="get">
+        <fieldset>
+            <legend>Write a new Article</legend>
+
+            <label for="article-title">Title</label>
+            <input id="article-title" name="article_title"  type="text">
+
+            <br>
+            <label for="article-text">Text</label>
+            <textarea id="article-text" name="article_text"></textarea>
+
+            <br>
+            <button id="article-submit" type="submit">Save</button>
+        </fieldset>
+    </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        var $form = $('#article-from');
+        var $titleField = $('#article-title');
+        var $textField = $('#article-text');
+
+        $form.on('submit', function(){
+            $.ajax({
+                url: Routing.generate('app_api_article_new'),
+                type: 'post',
+                data: JSON.stringify({'title': $titleField.val(), 'text': $textField.val()}),
+                success: function(response){
+                    alert('Article stored correctly');
+                },
+                error: function(){
+                    alert('Sorry, an error occurred');
+                },
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+            });
+
+            return false;
+        });
+    </script>
+{% endblock %}
