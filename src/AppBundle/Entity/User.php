@@ -24,12 +24,18 @@ class User
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=256)
+     */
+    private $email;
+
+    /**
      * User constructor.
      * @param string $name
      */
-    public function __construct($name)
+    public function __construct($name, $email)
     {
         $this->name = $name;
+        $this->email = $email;
     }
 
     /**
@@ -46,6 +52,14 @@ class User
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 }
 

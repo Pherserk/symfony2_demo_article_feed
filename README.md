@@ -24,6 +24,13 @@ Context:
  
 Instructions
 ============ 
- - Installation: composer install
- - Run test suite: bin/phpunit -c app/
- - Launch the command that triggers the notification to the user with notifications older than 24 hours: app/console notify:quotes --hours=24
+ - Installation:
+   - composer install
+   - app/console doc:sch:cre --env=test
+   - app/console doc:sch:cre --env=dev
+   
+ - Run test suite: 
+   - bin/phpunit -c app/
+   
+ - Launch the command that triggers the notification to the user with notifications older than 24 hours: 
+   - app/console notify:quotes --hours=24

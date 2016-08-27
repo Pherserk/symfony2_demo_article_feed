@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\QuoteRepository")
  * @ORM\Table(name="quote")
  */
 class Quote
@@ -36,6 +36,11 @@ class Quote
     private $text;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creation;
+
+    /**
      * Quote constructor.
      * @param User $author
      * @param Article $article
@@ -46,6 +51,7 @@ class Quote
         $this->author = $author;
         $this->article = $article;
         $this->text = $text;
+        $this->creation = new \DateTime('now');
     }
 
     /**
@@ -78,6 +84,14 @@ class Quote
     public function getText()
     {
         return $this->text;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreation()
+    {
+        return $this->creation;
     }
 }
 
