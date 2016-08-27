@@ -32,5 +32,7 @@ class NotifyQuotesCommandTest extends WebTestCase {
             sprintf('Done'),
             $outputLines[2]
         );
+
+        $this->markTestIncomplete('Would like to enable email profiler to test the spool is not empty');
     }
 }
