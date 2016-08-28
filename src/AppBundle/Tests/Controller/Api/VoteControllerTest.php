@@ -41,4 +41,30 @@ class VoteControllerTest extends WebTestCase
 
         $this->assertEquals($loggedUser->getName(), $decodedResponse->author->name);
     }
+
+    public function testNewAction_NotAcceptableRatingValue()
+    {
+        $referenceRepository = $this
+            ->loadFixtures([
+                'AppBundle\DataFixtures\ORM\LoadUserData',
+                'AppBundle\DataFixtures\ORM\LoadArticleData',
+            ])
+            ->getReferenceRepository();
+
+        $ratedArticle = $referenceRepository->getReference('article-2');
+
+        $client = static::createClient();
+
+        $data = json_encode(
+            [
+                'articleId' => $ratedArticle->getId(),
+                'rate' => 6
+            ]
+        );
+
+        $client->request('POST', '/api/votes', [], [], [], $data);
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $response->getStatusCode());
+    }
 }
