@@ -31,6 +31,10 @@ class VoteController extends Controller
             return new JsonResponse('Missing rate', Response::HTTP_NOT_ACCEPTABLE);
         }
 
+        if (!in_array($data['rate'], range(0,5))) {
+            return new JsonResponse('Rate should be an integer value between 0 and 5', Response::HTTP_NOT_ACCEPTABLE);
+        }
+
         # We fake the logged user for semplicity
         $user = $this->get('app.fake_user_provider')->get('Username1');
 
