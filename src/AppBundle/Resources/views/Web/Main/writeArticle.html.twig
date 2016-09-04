@@ -22,6 +22,11 @@
     {{ parent() }}
 
     <script>
+        var jwtToken = localStorage.getItem('jwtToken');
+        if (jwtToken === null) {
+            document.location.href = Routing.generate('app_web_authentication_login');
+        }
+
         var $form = $('#article-from');
         var $titleField = $('#article-title');
         var $textField = $('#article-text');
@@ -30,6 +35,7 @@
             $.ajax({
                 url: Routing.generate('app_api_article_new'),
                 type: 'post',
+                headers: { 'Authorization': 'Bearer ' + jwtToken },
                 data: JSON.stringify({'title': $titleField.val(), 'text': $textField.val()}),
                 success: function(response){
                     alert('Article stored correctly');

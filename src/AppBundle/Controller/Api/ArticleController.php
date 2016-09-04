@@ -4,7 +4,6 @@ namespace AppBundle\Controller\Api;
 
 
 use AppBundle\Entity\Article;
-use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,12 +11,20 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
+/**
+ * Class ArticleController
+ * @package AppBundle\Controller\Api
+ *
+ * @Route("/api/articles")
+ */
 class ArticleController extends Controller
 {
     /**
-     * @Route("/api/articles", options={"expose"=true})
+     * @Route("", options={"expose"=true})
      * @Method("POST")
+     * @Security("is_granted('ROLE_USER')")
      */
     public function newAction(Request $request)
     {
@@ -31,8 +38,7 @@ class ArticleController extends Controller
             return new JsonResponse('Missing text', Response::HTTP_NOT_ACCEPTABLE);
         }
 
-        # We fake the logged user for semplicity
-        $user = $this->get('app.fake_user_provider')->get('Username1');
+        $user = $this->getUser();
 
         $article = new Article($user, $data['title'], $data['text']);
 
@@ -54,7 +60,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/api/articles/{articleId}", options={"expose"=true})
+     * @Route("/{articleId}", options={"expose"=true})
      * @Method("GET")
      */
     public function showAction(Request $request, $articleId)

@@ -1,5 +1,10 @@
+parameters:
+  app.api.route.prefix: 'app_api'
+
 services:
-  app.fake_user_provider:
-    class: 'AppBundle\Service\FakeUserProvider'
+  json_exception_listener:
+    class: 'AppBundle\EventListener\JsonExceptionListener'
     arguments:
-      em: '@doctrine.orm.default_entity_manager'
+      apiRoutePrefix: '%app.api.route.prefix%'
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 200 }

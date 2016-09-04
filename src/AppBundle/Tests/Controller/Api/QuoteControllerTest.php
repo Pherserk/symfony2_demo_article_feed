@@ -3,10 +3,10 @@
 namespace AppBundle\Tests\Controller\Api;
 
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use AppBundle\Test\ApiWebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class QuoteControllerTest extends WebTestCase
+class QuoteControllerTest extends ApiWebTestCase
 {
     public function testNewAction()
     {
@@ -29,7 +29,9 @@ class QuoteControllerTest extends WebTestCase
             ]
         );
 
-        $client->request('POST', '/api/quotes', [], [], [], $data);
+        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+
+        $client->request('POST', '/api/quotes', [], [], $headers, $data);
         $response = $client->getResponse();
 
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
@@ -39,6 +41,6 @@ class QuoteControllerTest extends WebTestCase
         $this->assertEquals('This is an example quote on the article', $decodedResponse->text);
         $this->assertEquals($quotedArticle->getTitle(), $decodedResponse->article->title);
 
-        $this->assertEquals($loggedUser->getName(), $decodedResponse->author->name);
+        $this->assertEquals($loggedUser->getUsername(), $decodedResponse->author->username);
     }
 }

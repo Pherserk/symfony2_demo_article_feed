@@ -47,7 +47,7 @@ class NotifyQuotesCommand extends ContainerAwareCommand
                 $output->writeln(sprintf('Sending an email to: %s', $quote->getArticle()->getUser()->getEmail()));
 
                 $message = \Swift_Message::newInstance()
-                    ->setSubject(sprintf('Quote from: %s', $quote->getAuthor()->getName()))
+                    ->setSubject(sprintf('Quote from: %s', $quote->getAuthor()->getUsername()))
                     ->setFrom($container->getParameter('notifications_email'))
                     ->setTo($quote->getArticle()->getUser()->getEmail())
                     ->setBody($quote->getText(), 'text/html');
