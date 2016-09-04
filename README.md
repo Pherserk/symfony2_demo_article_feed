@@ -1,30 +1,13 @@
 symfony2_demo_article_feed
 ==========================
 
-A Symfony project created on August 26, 2016, 7:04 pm.
-
-Goal:
- - The goal is to create an API that will allow to create an article, answer to an article, rate an article (between 0 and 5 ==> 0, 1, 2, 3, 4, 5)
- - This API should also include to retrieve an article and all its answers
- - Write some unit tests.
-
-Bonus 1
- - Write a front page that will allow us to write an article (keep it simple)
-
-Bonus 2:
- - Write a command that will send an email to the writer of an article if he has notifications from more than 24 hours.
-
-
-We expect to see quality code, well decoupled and to understand how you think. Surprise us!
-
-Context:
- - ~3Hours
- - Symfony2
- - github
+A Symfony project created on August 26, 2016, 7:04 pm.w
  
 Instructions
 ============ 
  - Installation:
+   - openssl genrsa -out var/jwt/private.pem -aes256 4096
+   - openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem
    - composer install
    - app/console cache:clear --env=dev
    - app/console cache:clear --env=test
@@ -33,6 +16,8 @@ Instructions
    - app/console assetic:dump --env=dev
    - app/console assetic:dump --env=test
    - app/console assets:install --symlink web
+   - app/console debug:container jwt and press 0 (should be the 'lexik_jwt_authentication.jwt_encoder' option)
+
    
  - Run test suite: 
    - bin/phpunit -c app/

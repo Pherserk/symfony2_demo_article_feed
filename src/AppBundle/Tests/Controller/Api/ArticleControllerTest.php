@@ -3,10 +3,11 @@
 namespace AppBundle\Tests\Controller\Api;
 
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use AppBundle\Test\ApiWebTestCase;
+use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ArticleControllerTest extends WebTestCase
+class ArticleControllerTest extends ApiWebTestCase
 {
     public function testNewAction()
     {
@@ -27,9 +28,11 @@ class ArticleControllerTest extends WebTestCase
             ]
         );
 
-        $client->request('POST', '/api/articles', [], [], [], $data);
-        $response = $client->getResponse();
+        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
 
+        $client->request('POST', '/api/articles', [], [], $headers, $data);
+        $response = $client->getResponse();
+        
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
 
         $decodedResponse = json_decode($response->getContent());
@@ -37,7 +40,7 @@ class ArticleControllerTest extends WebTestCase
         $this->assertEquals('An awesome title', $decodedResponse->title);
         $this->assertEquals('A very useful and self-explaining text to make some fixtural request', $decodedResponse->text);
 
-        $this->assertEquals($loggedUser->getName(), $decodedResponse->user->name);
+        $this->assertEquals($loggedUser->getUsername(), $decodedResponse->user->username);
     }
 
     public function testShowAction()
