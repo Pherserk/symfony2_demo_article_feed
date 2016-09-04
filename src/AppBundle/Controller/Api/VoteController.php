@@ -3,7 +3,6 @@
 namespace AppBundle\Controller\Api;
 
 
-use AppBundle\Entity\User;
 use AppBundle\Entity\Vote;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class VoteController
@@ -24,6 +24,7 @@ class VoteController extends Controller
     /**
      * @Route("", options={"expose"=true})
      * @Method("POST")
+     * @Security("is_granted('ROLE_USER')")
      */
     public function newAction(Request $request)
     {
@@ -39,10 +40,9 @@ class VoteController extends Controller
 
         if (!in_array($data['rate'], range(0,5))) {
             return new JsonResponse('Rate should be an integer value between 0 and 5', Response::HTTP_NOT_ACCEPTABLE);
-        }
+        } 
 
-        # We fake the logged user for semplicity
-        $user = $this->get('app.fake_user_provider')->get('Username1');
+        $user = $this->getUser();
 
         $em = $this->getDoctrine()->getManager();
         $article = $em->getRepository('AppBundle:Article')->find($data['articleId']);

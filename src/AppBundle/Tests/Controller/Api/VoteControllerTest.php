@@ -3,10 +3,10 @@
 namespace AppBundle\Tests\Controller\Api;
 
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use AppBundle\Test\ApiWebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class VoteControllerTest extends WebTestCase
+class VoteControllerTest extends ApiWebTestCase
 {
     public function testNewAction()
     {
@@ -29,7 +29,10 @@ class VoteControllerTest extends WebTestCase
             ]
         );
 
-        $client->request('POST', '/api/votes', [], [], [], $data);
+        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+
+        $client->request('POST', '/api/votes', [], [], $headers, $data);
+
         $response = $client->getResponse();
 
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
@@ -39,7 +42,7 @@ class VoteControllerTest extends WebTestCase
         $this->assertEquals(5, $decodedResponse->rate);
         $this->assertEquals($ratedArticle->getTitle(), $decodedResponse->article->title);
 
-        $this->assertEquals($loggedUser->getName(), $decodedResponse->author->name);
+        $this->assertEquals($loggedUser->getUsername(), $decodedResponse->author->username);
     }
 
     public function testNewAction_NotAcceptableRatingValue()
@@ -51,6 +54,7 @@ class VoteControllerTest extends WebTestCase
             ])
             ->getReferenceRepository();
 
+        $loggedUser = $referenceRepository->getReference('user-1');
         $ratedArticle = $referenceRepository->getReference('article-2');
 
         $client = static::createClient();
@@ -62,7 +66,10 @@ class VoteControllerTest extends WebTestCase
             ]
         );
 
-        $client->request('POST', '/api/votes', [], [], [], $data);
+        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+
+        $client->request('POST', '/api/votes', [], [], $headers, $data);
+
         $response = $client->getResponse();
 
         $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $response->getStatusCode());

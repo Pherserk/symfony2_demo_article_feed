@@ -2,11 +2,6 @@ parameters:
   app.api.route.prefix: 'app_api'
 
 services:
-  app.fake_user_provider:
-    class: 'AppBundle\Service\FakeUserProvider'
-    arguments:
-      em: '@doctrine.orm.default_entity_manager'
-
   json_exception_listener:
     class: 'AppBundle\EventListener\JsonExceptionListener'
     arguments:
