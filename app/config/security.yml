@@ -36,7 +36,7 @@ security:
                 login_path: security_login_form
             logout:
                 # The route name the user can go to in order to logout
-                path: security_logout'
+                path: security_logout
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER

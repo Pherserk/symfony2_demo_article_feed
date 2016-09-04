@@ -26,5 +26,7 @@ Instructions
    - app/console notify:quotes --hours=24
    
  - Try the write article route:
+   - app/console doctrine:fixtures:load --env=dev
    - app/console server:start --force
    - point your browser to http://127.0.0.1:8000/app_dev.php/new
+   - after being redirect to the login insert these credential: Username1, password1

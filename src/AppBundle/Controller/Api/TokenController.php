@@ -28,7 +28,7 @@ class TokenController extends Controller
         $user = $this->getDoctrine()
             ->getRepository('AppBundle:User')
             ->findOneBy(['username' => $request->getUser()]);
-
+        
         if (!$user) {
             throw $this->createNotFoundException();
         }

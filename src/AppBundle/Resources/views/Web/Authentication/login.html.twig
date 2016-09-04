@@ -1,0 +1,48 @@
+{% extends 'AppBundle:Web:base.html.twig' %}
+
+{% block body %}
+    <form id="user-login-from" action="{{ path('app_web_authentication_login') }}" method="get">
+        <fieldset>
+            <legend>Login</legend>
+
+            <label for="user-username">Username</label>
+            <input id="user-username" name="user_username"  type="text">
+
+            <br>
+            <label for="user-password">Password</label>
+            <textarea id="user-password" name="user_password"></textarea>
+
+            <br>
+            <button id="user-login-submit" type="submit">Login</button>
+        </fieldset>
+    </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        var $form = $('#user-login-from');
+        var $usernameField = $('#user-username');
+        var $passwordField = $('#user-password');
+
+        $form.on('submit', function(){
+            $.ajax({
+                url: Routing.generate('app_api_token_new'),
+                type: 'post',
+                headers: { 'PHP_AUTH_USER': $usernameField.val(), 'PHP_AUTH_PW': $passwordField.val() },
+                success: function(response){
+                    localStorage.setItem('jwtToken',response.token);
+                    alert('Successfully authenticated!');
+                },
+                error: function(){
+                    alert('Sorry, an error occurred');
+                },
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+            });
+
+            return false;
+        });
+    </script>
+{% endblock %}
