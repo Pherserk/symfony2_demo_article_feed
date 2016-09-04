@@ -1,6 +1,9 @@
 imports:
     - { resource: config_dev.yml }
 
+parameters:
+    security_encryption_cost: 4
+
 framework:
     test: ~
     session:
