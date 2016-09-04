@@ -16,6 +16,8 @@ Instructions
    - app/console assetic:dump --env=dev
    - app/console assetic:dump --env=test
    - app/console assets:install --symlink web
+   - app/console debug:container jwt and press 0 (should be the 'lexik_jwt_authentication.jwt_encoder' option)
+
    
  - Run test suite: 
    - bin/phpunit -c app/
