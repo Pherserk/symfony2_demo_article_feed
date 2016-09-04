@@ -13,10 +13,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
+/**
+ * Class ArticleController
+ * @package AppBundle\Controller\Api
+ *
+ * @Route("/api/articles")
+ */
 class ArticleController extends Controller
 {
     /**
-     * @Route("/api/articles", options={"expose"=true})
+     * @Route("", options={"expose"=true})
      * @Method("POST")
      */
     public function newAction(Request $request)
@@ -54,7 +60,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/api/articles/{articleId}", options={"expose"=true})
+     * @Route("/{articleId}", options={"expose"=true})
      * @Method("GET")
      */
     public function showAction(Request $request, $articleId)

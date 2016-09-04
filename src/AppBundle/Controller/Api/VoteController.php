@@ -13,10 +13,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
+/**
+ * Class VoteController
+ * @package AppBundle\Controller\Api
+ *
+ * @Route("/api/votes")
+ */
 class VoteController extends Controller
 {
     /**
-     * @Route("/api/votes", options={"expose"=true})
+     * @Route("", options={"expose"=true})
      * @Method("POST")
      */
     public function newAction(Request $request)

@@ -13,10 +13,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
+/**
+ * Class QuoteController
+ * @package AppBundle\Controller\Api
+ *
+ * @Route("/api/quotes")
+ */
 class QuoteController extends Controller
 {
     /**
-     * @Route("/api/quotes", options={"expose"=true})
+     * @Route("", options={"expose"=true})
      * @Method("POST")
      */
     public function newAction(Request $request)
