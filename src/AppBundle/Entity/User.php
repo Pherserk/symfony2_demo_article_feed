@@ -47,6 +47,26 @@ class User implements UserInterface
     private $mobileNumber;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $emailConfirmedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $mobileConfirmedAt;
+
+    /**
+     * @ORM\Column(type="string", nullable=false, length=128)
+     */
+    private $confirmationToken;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, length=4)
+     */
+    private $confirmationPin;
+
+    /**
      * User constructor.
      * @param string $username
      * @param string $email
@@ -58,6 +78,10 @@ class User implements UserInterface
         $this->email = $email;
         $this->mobileNumber = $mobileNumber;
         $this->salt = null;
+        $this->emailConfirmedAt = null;
+        $this->mobileConfirmedAt = null;
+        $this->confirmationToken = sha1(strrev($username . rand(0,9)) . $email . rand(0,9) . strrev($mobileNumber . rand(0,9)));
+        $this->confirmationPin = rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9);
     }
 
     /**
@@ -132,6 +156,58 @@ class User implements UserInterface
     public function getMobileNumber()
     {
         return $this->mobileNumber;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEmailConfirmedAt()
+    {
+        return $this->emailConfirmedAt;
+    }
+
+    /**
+     * @param \DateTime $emailConfirmedAt
+     * @return User
+     */
+    public function setEmailConfirmedAt(\DateTime $emailConfirmedAt)
+    {
+        $this->emailConfirmedAt = $emailConfirmedAt;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getMobileConfirmedAt()
+    {
+        return $this->mobileConfirmedAt;
+    }
+
+    /**
+     * @param \DateTime $mobileConfirmedAt
+     * @return User
+     */
+    public function setMobileConfirmedAt(\DateTime $mobileConfirmedAt)
+    {
+        $this->mobileConfirmedAt = $mobileConfirmedAt;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfirmationToken()
+    {
+        return $this->confirmationToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfirmationPin()
+    {
+        return $this->confirmationPin;
     }
 }
 
