@@ -22,29 +22,23 @@
     {{ parent() }}
 
     <script>
-        var jwtToken = localStorage.getItem('jwtToken');
-        if (jwtToken === null) {
-            document.location.href = Routing.generate('app_web_authentication_login');
-        }
-
         var $form = $('#article-from');
         var $titleField = $('#article-title');
         var $textField = $('#article-text');
 
+        console.log($.fn);
+
         $form.on('submit', function(){
-            $.ajax({
+            $.JwtAjax({
                 url: Routing.generate('app_api_article_new'),
                 type: 'post',
-                headers: { 'Authorization': 'Bearer ' + jwtToken },
-                data: JSON.stringify({'title': $titleField.val(), 'text': $textField.val()}),
+                data: {'title': $titleField.val(), 'text': $textField.val()},
                 success: function(response){
                     alert('Article stored correctly');
                 },
                 error: function(){
                     alert('Sorry, an error occurred');
-                },
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
+                }
             });
 
             return false;

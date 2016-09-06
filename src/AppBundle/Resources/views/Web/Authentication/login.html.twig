@@ -27,19 +27,17 @@
         var $passwordField = $('#user-password');
 
         $form.on('submit', function(){
-            $.ajax({
+            $.JsonApiAjax({
                 url: Routing.generate('app_api_token_new'),
                 type: 'post',
                 headers: { 'PHP_AUTH_USER': $usernameField.val(), 'PHP_AUTH_PW': $passwordField.val() },
                 success: function(response){
-                    localStorage.setItem('jwtToken',response.token);
+                    $.JwtToken.set(response.token);
                     alert('Successfully authenticated!');
                 },
                 error: function(){
                     alert('Sorry, an error occurred');
                 },
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
             });
 
             return false;

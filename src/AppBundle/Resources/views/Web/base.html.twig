@@ -16,7 +16,9 @@
             <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 
-            <script src="{{ asset('bundles/app/js/zepto.js') }}"></script>
+            <script src="{{ asset('bundles/app/js/vendor/zepto.js') }}"></script>
+            <script src="{{ asset('bundles/app/js/JsonApiAjax.js') }}"></script>
+            <script src="{{ asset('bundles/app/js/JwtAjax.js') }}"></script>
         {% endblock %}
     </body>
 </html>
