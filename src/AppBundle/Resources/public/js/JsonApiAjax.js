@@ -1,4 +1,4 @@
-(function ( $ ) {
+;(function ( $ ) {
     $.extend(
         $.fn,
         {
@@ -9,5 +9,5 @@
                 $.ajax(options);
             }
         }
-    );
-}( Zepto ));
+    )
+})( window.Zepto || window.jQuery )

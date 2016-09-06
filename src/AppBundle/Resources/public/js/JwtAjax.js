@@ -1,4 +1,4 @@
-(function ( $ ) {
+;(function ( $ ) {
     $.extend(
         $.fn,
         {
@@ -19,10 +19,10 @@
                 }
             }
         }
-    );
-}( Zepto ));
+    )
+})( window.Zepto || window.jQuery )
 
-(function ( $ ) {
+;(function ( $ ) {
     $.extend(
         $.fn,
         {
@@ -35,5 +35,5 @@
                 $.JsonApiAjax(options);
             }
         }
-    );
-}( Zepto ));
+    )
+})( window.Zepto || window.jQuery )

@@ -26,8 +26,6 @@
         var $titleField = $('#article-title');
         var $textField = $('#article-text');
 
-        console.log($.fn);
-
         $form.on('submit', function(){
             $.JwtAjax({
                 url: Routing.generate('app_api_article_new'),
