@@ -9,6 +9,10 @@
         {% endblock %}
     </head>
     <body>
+        <nav>
+            <button style="display: none;" id="logout-ctrl" type="button">Logout</button>
+            <button style="display: none;" id="login-ctrl" type="button">Login</button>
+        </nav>
         {% block body %}
         {% endblock %}
 
@@ -16,7 +20,27 @@
             <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 
-            <script src="{{ asset('bundles/app/js/zepto.js') }}"></script>
+            <script src="{{ asset('bundles/app/js/vendor/zepto.js') }}"></script>
+            <script src="{{ asset('bundles/app/js/JsonApiAjax.js') }}"></script>
+            <script src="{{ asset('bundles/app/js/JwtAjax.js') }}"></script>
+
+            <script>
+                if (typeof $.JwtToken.get() != 'null') {
+                    $('#logout-ctrl')
+                            .on('click', function(){
+                                $.JwtToken.set(null);
+                                document.location.href = Routing.generate('app_web_authentication_login');
+                            })
+                            .show();
+
+                } else {
+                    $('#login-ctrl')
+                            .on('click', function(){
+                                document.location.href = Routing.generate('app_web_authentication_login');
+                            })
+                            .show();
+                }
+            </script>
         {% endblock %}
     </body>
 </html>
