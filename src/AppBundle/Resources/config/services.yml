@@ -1,9 +1,28 @@
 parameters:
   app.api.route.prefix: 'app_api'
+  security.pin.alphabet: '0123456789ABCDEFGJKHILMNOPQRSTUVWXYZ'
+  security.pin.length: 4
 
 services:
-  json_exception_listener:
-    class: 'AppBundle\EventListener\JsonExceptionListener'
+  security.user_confirmation_pin_generator:
+      class: AppBundle\Service\Security\UserConfirmationPinGenerator
+      arguments:
+          alphabet: '%security.pin.alphabet%'
+          length: '%security.pin.length%'
+
+  security.user_builder:
+      class: AppBundle\Service\Security\UserBuilder
+      arguments:
+          pe: "@security.password_encoder"
+          ucpg: "@security.user_confirmation_pin_generator"
+
+  security.orm_user_persister:
+      class: AppBundle\Service\Security\ORMUserPersister
+      arguments:
+          em: "@doctrine.orm.entity_manager"
+
+  json_api.event_listener.json_exception_listener:
+    class: 'AppBundle\Service\JsonApi\EventListener\JsonExceptionListener'
     arguments:
       apiRoutePrefix: '%app.api.route.prefix%'
     tags:

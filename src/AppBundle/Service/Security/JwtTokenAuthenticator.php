@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Security;
+namespace AppBundle\Service\Security;
 
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,7 +50,7 @@ class JwtTokenAuthenticator extends AbstractGuardAuthenticator
         $token = $extractor->extract($request);
 
         if (!$token) {
-            return;
+            return null;
         }
 
         return $token;
