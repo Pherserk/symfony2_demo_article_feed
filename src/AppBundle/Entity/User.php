@@ -21,28 +21,28 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=32)
+     * @ORM\Column(type="string", nullable=false, length=32)
      */
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=128)
+     * @ORM\Column(type="string", nullable=false,length=128)
      */
     private $password;
 
 
     /**
-     * @ORM\Column(type="string", length=128, nullable=true)
+     * @ORM\Column(type="string", nullable=true, length=128)
      */
     private $salt;
 
     /**
-     * @ORM\Column(type="string", length=256)
+     * @ORM\Column(type="string", nullable=false, length=256)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=16)
+     * @ORM\Column(type="string", nullable=false, length=16)
      */
     private $mobileNumber;
 
@@ -57,12 +57,7 @@ class User implements UserInterface
     private $mobileConfirmedAt;
 
     /**
-     * @ORM\Column(type="string", nullable=false, length=128)
-     */
-    private $confirmationToken;
-
-    /**
-     * @ORM\Column(type="string", nullable=true, length=4)
+     * @ORM\Column(type="string", nullable=false, length=8)
      */
     private $confirmationPin;
 
@@ -80,8 +75,7 @@ class User implements UserInterface
         $this->salt = null;
         $this->emailConfirmedAt = null;
         $this->mobileConfirmedAt = null;
-        $this->confirmationToken = sha1(strrev($username . rand(0,9)) . $email . rand(0,9) . strrev($mobileNumber . rand(0,9)));
-        $this->confirmationPin = rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9);
+        $this->confirmationPin = null;
     }
 
     /**
@@ -197,18 +191,19 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getConfirmationToken()
-    {
-        return $this->confirmationToken;
-    }
-
-    /**
-     * @return string
-     */
     public function getConfirmationPin()
     {
         return $this->confirmationPin;
     }
+
+    /**
+     * @param $confirmationPin
+     * @return $this
+     */
+    public function setConfirmationPin($confirmationPin)
+    {
+        $this->confirmationPin = $confirmationPin;
+
+        return $this;
+    }
 }
-
-

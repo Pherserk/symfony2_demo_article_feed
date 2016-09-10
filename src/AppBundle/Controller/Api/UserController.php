@@ -45,17 +45,11 @@ class UserController extends Controller
             return new JsonResponse('Missing mobile number', Response::HTTP_NOT_ACCEPTABLE);
         }
 
-        $user = new User($data['username'], $data['email'], $data['mobileNumber']);
+        $user = $this->get('security.user_builder')
+            ->make($data['username'], $data['password'], $data['email'], $data['mobileNumber']);
 
-        $password = $this->get('security.password_encoder')
-            ->encodePassword($user, $data['password']);
-
-        $user->setPassword($password);
-
-        $em = $this->getDoctrine()->getManager();
-
-        $em->persist($user);
-        $em->flush();
+        $this->get('security.orm_user_persister')
+            ->store($user);
 
         $response = new Response(
             $this

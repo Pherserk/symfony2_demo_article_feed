@@ -3,6 +3,7 @@
 namespace AppBundle\Command;
 
 
+use AppBundle\Entity\Quote;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -37,7 +38,7 @@ class NotifyQuotesCommand extends ContainerAwareCommand
 
         $quotesRepo = $container
             ->get('doctrine.orm.default_entity_manager')
-            ->getRepository('AppBundle:Quote');
+            ->getRepository(Quote::class);
 
         $quotes = $quotesRepo->findByCreationBeetween($from, $to);
 

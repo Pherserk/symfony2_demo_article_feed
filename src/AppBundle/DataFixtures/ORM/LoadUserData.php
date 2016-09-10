@@ -34,8 +34,13 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $password1 = $passwordEncoder->encodePassword($user1, 'password1');
         $password2 = $passwordEncoder->encodePassword($user2, 'password2');
 
-        $user1->setPassword($password1);
-        $user2->setPassword($password2);
+        $user1
+            ->setPassword($password1)
+            ->setConfirmationPin('ABCD');
+        
+        $user2
+            ->setPassword($password2)
+            ->setConfirmationPin('0123');
 
         $manager->persist($user1);
         $manager->persist($user2);

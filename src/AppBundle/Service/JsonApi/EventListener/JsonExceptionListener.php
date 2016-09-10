@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\EventListener;
+namespace AppBundle\Service\JsonApi\EventListener;
 
 
 use Symfony\Component\HttpFoundation\JsonResponse;
