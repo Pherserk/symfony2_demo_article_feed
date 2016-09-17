@@ -47,19 +47,16 @@ class User implements UserInterface
     private $mobileNumber;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $emailConfirmedAt;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $mobileConfirmedAt;
-
-    /**
-     * @ORM\Column(type="string", nullable=false, length=8)
+     * @ORM\OneToOne(targetEntity="ConfirmationPin", cascade={"persist"})
+     * @ORM\JoinColumn(name="confirmation_pin_id", referencedColumnName="id", onDelete="set null")
      */
     private $confirmationPin;
+
+    /**
+     * @ORM\OneToOne(targetEntity="ConfirmationToken", cascade={"persist"})
+     * @ORM\JoinColumn(name="confirmation_token_id", referencedColumnName="id", onDelete="set null")
+     */
+    private $confirmationToken;
 
     /**
      * User constructor.
@@ -73,9 +70,8 @@ class User implements UserInterface
         $this->email = $email;
         $this->mobileNumber = $mobileNumber;
         $this->salt = null;
-        $this->emailConfirmedAt = null;
-        $this->mobileConfirmedAt = null;
         $this->confirmationPin = null;
+        $this->confirmationToken = null;
     }
 
     /**
@@ -153,43 +149,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return \DateTime
-     */
-    public function getEmailConfirmedAt()
-    {
-        return $this->emailConfirmedAt;
-    }
-
-    /**
-     * @param \DateTime $emailConfirmedAt
-     * @return User
-     */
-    public function setEmailConfirmedAt(\DateTime $emailConfirmedAt)
-    {
-        $this->emailConfirmedAt = $emailConfirmedAt;
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getMobileConfirmedAt()
-    {
-        return $this->mobileConfirmedAt;
-    }
-
-    /**
-     * @param \DateTime $mobileConfirmedAt
-     * @return User
-     */
-    public function setMobileConfirmedAt(\DateTime $mobileConfirmedAt)
-    {
-        $this->mobileConfirmedAt = $mobileConfirmedAt;
-        return $this;
-    }
-
-    /**
-     * @return string
+     * @return ConfirmationPin
      */
     public function getConfirmationPin()
     {
@@ -197,13 +157,31 @@ class User implements UserInterface
     }
 
     /**
-     * @param $confirmationPin
+     * @param ConfirmationPin $confirmationPin
      * @return $this
      */
-    public function setConfirmationPin($confirmationPin)
+    public function setConfirmationPin(ConfirmationPin $confirmationPin)
     {
         $this->confirmationPin = $confirmationPin;
+        return $this;
+    }
 
+    /**
+     * @return ConfirmationToken
+     */
+    public function getConfirmationToken()
+    {
+        return $this->confirmationToken;
+    }
+
+    /**
+     * @param ConfirmationToken $confirmationToken
+     * @return User
+     */
+    public function setConfirmationToken(ConfirmationToken $confirmationToken)
+    {
+        $this->confirmationToken = $confirmationToken;
         return $this;
     }
 }
+

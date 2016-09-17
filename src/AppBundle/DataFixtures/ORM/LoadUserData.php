@@ -3,6 +3,7 @@
 namespace AppBundle\DataFixtures\ORM;
 
 
+use AppBundle\Entity\ConfirmationPin;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -25,6 +26,8 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
 
     public function load(ObjectManager $manager)
     {
+        $confirmationPin1 = new ConfirmationPin('ABCD');
+        $confirmationPin2 = new ConfirmationPin('0123');
 
         $passwordEncoder = $this->container->get('security.password_encoder');
 
@@ -36,11 +39,11 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
 
         $user1
             ->setPassword($password1)
-            ->setConfirmationPin('ABCD');
+            ->setConfirmationPin($confirmationPin1);
         
         $user2
             ->setPassword($password2)
-            ->setConfirmationPin('0123');
+            ->setConfirmationPin($confirmationPin2);
 
         $manager->persist($user1);
         $manager->persist($user2);

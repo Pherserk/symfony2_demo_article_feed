@@ -27,17 +27,6 @@ security:
                 authenticators:
                     - 'jwt_token_authenticator'
 
-        main:
-            pattern: ^/
-            anonymous: true
-            form_login:
-                # The route name that the login form submits to
-                check_path: security_login_check
-                login_path: security_login_form
-            logout:
-                # The route name the user can go to in order to logout
-                path: security_logout
-
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]

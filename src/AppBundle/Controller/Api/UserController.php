@@ -3,7 +3,6 @@
 namespace AppBundle\Controller\Api;
 
 
-use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,34 +26,28 @@ class UserController extends Controller
      */
     public function newAction(Request $request)
     {
-        $data = json_decode($request->getContent(), true);
+        $parsedRequest = $this->get('json_api.parser.request.new_user')
+            ->parse($request);
 
-        if (!isset($data['username']) || empty($data['password'])) {
-            return new JsonResponse('Missing username', Response::HTTP_NOT_ACCEPTABLE);
-        }
+        $data = $parsedRequest->getData();
 
-        if (!isset($data['password']) || empty($data['password'])) {
-            return new JsonResponse('Missing password', Response::HTTP_NOT_ACCEPTABLE);
-        }
-
-        if (!isset($data['email']) || empty($data['email'])) {
-            return new JsonResponse('Missing email', Response::HTTP_NOT_ACCEPTABLE);
-        }
-
-        if (!isset($data['mobileNumber']) || empty($data['mobileNumber'])) {
-            return new JsonResponse('Missing mobile number', Response::HTTP_NOT_ACCEPTABLE);
+        if (!$parsedRequest->isPassed()) {
+            return new JsonResponse($parsedRequest->getErrors(), Response::HTTP_BAD_REQUEST);
         }
 
         $user = $this->get('security.user_builder')
-            ->make($data['username'], $data['password'], $data['email'], $data['mobileNumber']);
+            ->make(
+                $data['username'],
+                $data['password'],
+                $data['email'],
+                $data['mobileNumber']
+            );
 
         $this->get('security.orm_user_persister')
             ->store($user);
-
+        
         $response = new Response(
-            $this
-                ->container
-                ->get('jms_serializer')
+            $this->get('jms_serializer')
                 ->serialize($user, 'json'),
             Response::HTTP_CREATED
         );
