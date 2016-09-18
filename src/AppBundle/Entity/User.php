@@ -2,8 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 
@@ -21,7 +21,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", nullable=false, length=32)
+     * @ORM\Column(type="string", nullable=false, length=32, unique=true)
      */
     private $username;
 
@@ -35,6 +35,13 @@ class User implements UserInterface
      * @ORM\Column(type="string", nullable=true, length=128)
      */
     private $salt;
+
+    /**
+     * @var ArrayCollection|UserGroup[]
+     * @ORM\ManyToMany(targetEntity="UserGroup")
+     * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
+     */
+    private $groups;
 
     /**
      * @ORM\Column(type="string", nullable=false, length=256)
@@ -67,9 +74,10 @@ class User implements UserInterface
     public function __construct($username, $email, $mobileNumber)
     {
         $this->username = $username;
+        $this->groups = new ArrayCollection();
+        $this->salt = null;
         $this->email = $email;
         $this->mobileNumber = $mobileNumber;
-        $this->salt = null;
         $this->confirmationPin = null;
         $this->confirmationToken = null;
     }
@@ -88,6 +96,55 @@ class User implements UserInterface
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * @return UserGroup[]|ArrayCollection
+     */
+    public function getGroups()
+    {
+        return $this->groups;
+    }
+
+    /**
+     * @param UserGroup $group
+     * @return $this
+     */
+    public function addGroup(UserGroup $group)
+    {
+        if (!$this->groups->contains($group)) {
+             $this->groups->add($group);
+        }
+        
+        return $this;
+    }
+
+    /**
+     * @param UserGroup $group
+     * @return $this
+     */
+    public function removeGroup(UserGroup $group)
+    {
+        $this->groups->removeElement($group);
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     * This is a proxy and will make some queries, when possibile retrive data once
+     */
+    public function getRoles()
+    {
+        $roles = [];
+        $groups = $this->getGroups();
+        foreach ($groups as $group) {
+            $groupRoles = $group->getRoles();
+            foreach ($groupRoles as $groupRole) {
+                $roles[] = $groupRole->getRole();
+            }
+        }
+
+        return $roles;
     }
 
     /**
@@ -122,14 +179,6 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         return $this;
-    }
-
-    /**
-     * @return Role[]
-     */
-    public function getRoles()
-    {
-        return ['ROLE_USER'];
     }
 
     /**

@@ -13,12 +13,14 @@ class ArticleControllerTest extends ApiWebTestCase
     {
         $referenceRepository = $this
             ->loadFixtures([
+                'AppBundle\DataFixtures\ORM\LoadUserRoleData',
+                'AppBundle\DataFixtures\ORM\LoadUserGroupData',
                 'AppBundle\DataFixtures\ORM\LoadUserData',
             ])
             ->getReferenceRepository();
 
         $loggedUser = $referenceRepository->getReference('user-1');
-
+        
         $client = static::createClient();
 
         $data = json_encode(
@@ -47,6 +49,8 @@ class ArticleControllerTest extends ApiWebTestCase
     {
         $referenceRepository = $this
             ->loadFixtures([
+                'AppBundle\DataFixtures\ORM\LoadUserRoleData',
+                'AppBundle\DataFixtures\ORM\LoadUserGroupData',
                 'AppBundle\DataFixtures\ORM\LoadUserData',
                 'AppBundle\DataFixtures\ORM\LoadArticleData',
             ])

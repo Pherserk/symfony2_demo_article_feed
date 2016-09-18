@@ -4,6 +4,7 @@ namespace AppBundle\DataFixtures\ORM;
 
 
 use AppBundle\Entity\ConfirmationPin;
+use AppBundle\Entity\UserGroup;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -31,8 +32,13 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
 
         $passwordEncoder = $this->container->get('security.password_encoder');
 
+        /** @var UserGroup $userGroup */
+        $userGroup = $this->getReference('user-group');
+
         $user1 = new User('Username1', 'user.name.1@example.com', '333123456789');
+        $user1->addGroup($userGroup);
         $user2 = new User('Username2', 'user.name.2@example.com', '3333333333');
+        $user2->addGroup($userGroup);
 
         $password1 = $passwordEncoder->encodePassword($user1, 'password1');
         $password2 = $passwordEncoder->encodePassword($user2, 'password2');
@@ -56,6 +62,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
 
     public function getOrder()
     {
-        return 1;
+        return 10;
     }
 }
+

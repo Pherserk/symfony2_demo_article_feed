@@ -12,6 +12,8 @@ class VoteControllerTest extends ApiWebTestCase
     {
         $referenceRepository = $this
             ->loadFixtures([
+                'AppBundle\DataFixtures\ORM\LoadUserRoleData',
+                'AppBundle\DataFixtures\ORM\LoadUserGroupData',
                 'AppBundle\DataFixtures\ORM\LoadUserData',
                 'AppBundle\DataFixtures\ORM\LoadArticleData',
             ])
@@ -49,6 +51,8 @@ class VoteControllerTest extends ApiWebTestCase
     {
         $referenceRepository = $this
             ->loadFixtures([
+                'AppBundle\DataFixtures\ORM\LoadUserRoleData',
+                'AppBundle\DataFixtures\ORM\LoadUserGroupData',
                 'AppBundle\DataFixtures\ORM\LoadUserData',
                 'AppBundle\DataFixtures\ORM\LoadArticleData',
             ])

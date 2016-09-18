@@ -11,6 +11,8 @@ class NotifyQuotesCommandTest extends WebTestCase {
     {
         $referenceRepository = $this
             ->loadFixtures([
+                'AppBundle\DataFixtures\ORM\LoadUserRoleData',
+                'AppBundle\DataFixtures\ORM\LoadUserGroupData',
                 'AppBundle\DataFixtures\ORM\LoadUserData',
                 'AppBundle\DataFixtures\ORM\LoadArticleData',
                 'AppBundle\DataFixtures\ORM\LoadQuoteData',

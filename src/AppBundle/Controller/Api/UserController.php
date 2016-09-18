@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Api;
 
 
+use AppBundle\Entity\UserGroup;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,6 +43,13 @@ class UserController extends Controller
                 $data['email'],
                 $data['mobileNumber']
             );
+
+        $userGroup = $this->getDoctrine()
+            ->getManager()
+            ->getRepository(UserGroup::class)
+            ->findOneBy(['name' => 'GROUP_USER']);
+
+        $user->addGroup($userGroup);
 
         $this->get('security.orm_user_persister')
             ->store($user);

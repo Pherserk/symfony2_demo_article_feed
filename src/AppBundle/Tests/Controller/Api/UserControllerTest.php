@@ -10,6 +10,13 @@ class UserControllerTest extends ApiWebTestCase
 {
     public function testNewAction()
     {
+        $referenceRepository = $this
+            ->loadFixtures([
+                'AppBundle\DataFixtures\ORM\LoadUserRoleData',
+                'AppBundle\DataFixtures\ORM\LoadUserGroupData',
+            ])
+            ->getReferenceRepository();
+
         $payLoad =  [
             'username' => 'JohnDoe',
             'password' => 'J0hNd03sP4sSw0rD',
@@ -42,6 +49,13 @@ class UserControllerTest extends ApiWebTestCase
      */
     public function testNewAction_onBadRequest($payLoad, array $errors)
     {
+        $referenceRepository = $this
+            ->loadFixtures([
+                'AppBundle\DataFixtures\ORM\LoadUserRoleData',
+                'AppBundle\DataFixtures\ORM\LoadUserGroupData',
+            ])
+            ->getReferenceRepository();
+
         $client = static::createClient();
 
         $data = json_encode($payLoad);
