@@ -6,15 +6,10 @@ namespace AppBundle\Service\JsonApi\Parser\Request;
 use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * Class NewUserRoleRequestParser
- * @package AppBundle\Service\JsonApi\Parser\Request
- */
-class NewUserRoleRequestParser extends AbstractRequestParser
+class NewUserGroupRequestParser extends AbstractRequestParser
 {
-
     /**
-     * NewUserRoleRequestParser constructor.
+     * NewUserGroupRequestParser constructor.
      * @param JsonRequestDeserializer $jrd
      */
     public function __construct(JsonRequestDeserializer $jrd)
@@ -31,10 +26,10 @@ class NewUserRoleRequestParser extends AbstractRequestParser
         $data = $this->jrd->deserialize($request);
         $errors = [];
 
-        if (!isset($data['role'])) {
-            $errors['role'][] = 'Missing field';
-        } else if (strpos($data['role'], 'ROLE_') !== 0) {
-            $errors['role'][] = 'Must start with ROLE_';
+        if (!isset($data['name'])) {
+            $errors['name'][] = 'Missing field';
+        } else if (strpos($data['name'], 'GROUP_') !== 0) {
+            $errors['name'][] = 'Must start with GROUP_';
         }
 
         return new ValidatedRequest($data, $errors);
