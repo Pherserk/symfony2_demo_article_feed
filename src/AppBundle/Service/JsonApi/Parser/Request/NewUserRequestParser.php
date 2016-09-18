@@ -55,7 +55,7 @@ class NewUserRequestParser extends AbstractRequestParser
      */
     public function parse(Request $request)
     {
-        $data = $this->jrd->deserialize($request);
+        $data = $this->jrd->deserialize($request, true);
         $errors = [];
 
         if (!isset($data['username'])) {

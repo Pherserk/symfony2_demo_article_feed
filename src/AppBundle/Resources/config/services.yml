@@ -125,6 +125,11 @@ services:
       arguments:
           jrd: '@json_api.deserializer.json_request_deserializer'
 
+  json.api.parser.request.add_user_role_to_user_group:
+      class: AppBundle\Service\JsonApi\Parser\Request\AddUserRoleToUserGroupRequestParser
+      arguments:
+          jrd: '@json_api.deserializer.json_request_deserializer'
+
   json_api.event_listener.json_exception_listener:
       class: 'AppBundle\Service\JsonApi\EventListener\JsonExceptionListener'
       arguments:

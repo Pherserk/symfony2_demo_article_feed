@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Api;
 
 
 use AppBundle\Entity\UserGroup;
+use AppBundle\Entity\UserRole;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,5 +76,49 @@ class UserGroupController extends Controller
         $em->flush($userGroup);
 
         return new JsonResponse([], Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @Route("/{userGroup}/relationships/user-roles", options={"expose"=true})
+     * @Method("POST")
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     */
+    public function updateUserRolesAction(Request $request, UserGroup $userGroup)
+    {
+        $parsedRequest = $this->get('json.api.parser.request.add_user_role_to_user_group')
+            ->parse($request);
+
+        $relationShips = $parsedRequest->getData();
+
+        if (!$parsedRequest->isPassed()) {
+            return new JsonResponse($parsedRequest->getErrors(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $userRoleIds = [];
+        foreach ($relationShips->data as $relationShip) {
+            $userRoleIds[] = $relationShip->id;
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $userRoleRepository = $em->getRepository(UserRole::class);
+
+        $userRoles = $userRoleRepository->findById($userRoleIds);
+
+        $foundUserRoleIds = [];
+        foreach ($userRoles as $userRole) {
+            $userGroup->addRole($userRole);
+            $foundUserRoleIds[] = $userRole->getId();
+        }
+
+        $missingRoles = array_diff($userRoleIds, $foundUserRoleIds);
+
+        if (count($missingRoles) !== 0) {
+            return new JsonResponse('Missing user roles:, %s', implode(', ', $missingRoles), Response::HTTP_BAD_REQUEST);
+        }
+
+        $em->persist($userGroup);
+        $em->flush($userGroup);
+        
+        return new JsonResponse([], Response::HTTP_OK);      
     }
 }
