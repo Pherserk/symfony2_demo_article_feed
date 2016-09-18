@@ -15,15 +15,21 @@ class LoadUserGroupData extends AbstractFixture implements OrderedFixtureInterfa
     {
         /** @var UserRole $userRole */
         $userRole = $this->getReference('user-role');
+        /** @var UserRole $superAdminRole */
+        $superAdminRole = $this->getReference('super-admin-role');
 
         $groupUser = new UserGroup('GROUP_USER');
+        $groupSuperAdmin = new UserGroup('GROUP_SUPER_ADMIN');
 
         $groupUser->addRole($userRole);
+        $groupSuperAdmin->addRole($superAdminRole);
 
         $manager->persist($groupUser);
+        $manager->persist($groupSuperAdmin);
         $manager->flush();
 
         $this->addReference('user-group', $groupUser);
+        $this->addReference('super-admin-group', $groupSuperAdmin);
     }
 
     public function getOrder()

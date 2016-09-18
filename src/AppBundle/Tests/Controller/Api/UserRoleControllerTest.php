@@ -21,7 +21,7 @@ class UserRoleControllerTest extends ApiWebTestCase
         $loggedUser = $referenceRepository->getReference('super-admin');
 
         $payLoad =  [
-            'name' => 'ROLE_TEST',
+            'role' => 'ROLE_TEST',
         ];
 
         $data = json_encode($payLoad);
@@ -34,5 +34,9 @@ class UserRoleControllerTest extends ApiWebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+
+        $decodedResponse = json_decode($response->getContent());
+
+        self::assertEquals('ROLE_TEST', $decodedResponse->role);
     }
 }

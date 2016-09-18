@@ -105,6 +105,11 @@ services:
           ev: '@validator.email_validator'
           mnv: '@validator.mobile_number_validator'
 
+  json_api.parser.request.new_user_role:
+      class: AppBundle\Service\JsonApi\Parser\Request\NewUserRoleRequestParser
+      arguments:
+          jrd: '@json_api.deserializer.json_request_deserializer'
+
   json_api.event_listener.json_exception_listener:
       class: 'AppBundle\Service\JsonApi\EventListener\JsonExceptionListener'
       arguments:

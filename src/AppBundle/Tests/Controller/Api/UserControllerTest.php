@@ -30,7 +30,7 @@ class UserControllerTest extends ApiWebTestCase
 
         $client->request('POST', '/api/users', [], [], [], $data);
         $response = $client->getResponse();
-
+        
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
 
         $decodedResponse = json_decode($response->getContent());

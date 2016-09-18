@@ -25,6 +25,9 @@ class LoadUserRoleData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->flush();
 
         $this->addReference('user-role', $roleUser);
+        $this->addReference('admin-role', $roleAdmin);
+        $this->addReference('allowed-to-switch-role', $roleAllowedToSwitch);
+        $this->addReference('super-admin-role', $roleSuperAdmin);
     }
 
     public function getOrder()
