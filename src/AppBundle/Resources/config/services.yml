@@ -110,6 +110,11 @@ services:
       arguments:
           jrd: '@json_api.deserializer.json_request_deserializer'
 
+  json.api.parser.request.delete_user_role:
+      class: AppBundle\Service\JsonApi\Parser\Request\DeleteUserRoleRequestParser
+      arguments:
+          jrd: '@json_api.deserializer.json_request_deserializer'
+
   json_api.parser.request.new_user_group:
       class: AppBundle\Service\JsonApi\Parser\Request\NewUserGroupRequestParser
       arguments:

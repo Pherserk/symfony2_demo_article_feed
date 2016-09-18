@@ -53,4 +53,27 @@ class UserRoleController extends Controller
 
         return $response;
     }
+
+    /**
+     * @Route("/{userRole}", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     */
+    public function deleteAction(Request $request, UserRole $userRole)
+    {
+        $parsedRequest = $this->get('json.api.parser.request.delete_user_role')
+            ->parse($request);
+
+        $data = $parsedRequest->getData();
+
+        if (!$parsedRequest->isPassed()) {
+            return new JsonResponse($parsedRequest->getErrors(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($userRole);
+        $em->flush($userRole);
+
+        return new JsonResponse([], Response::HTTP_NO_CONTENT);
+    }
 }

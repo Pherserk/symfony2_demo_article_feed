@@ -39,4 +39,31 @@ class UserRoleControllerTest extends ApiWebTestCase
 
         self::assertEquals('ROLE_TEST', $decodedResponse->role);
     }
+
+    public function testDeleteAction()
+    {
+        $referenceRepository = $this
+            ->loadFixtures([
+                'AppBundle\DataFixtures\ORM\LoadUserRoleData',
+                'AppBundle\DataFixtures\ORM\LoadUserGroupData',
+                'AppBundle\DataFixtures\ORM\LoadUserData',
+            ])
+            ->getReferenceRepository();
+
+        $loggedUser = $referenceRepository->getReference('super-admin');
+        $roleToDelete = $referenceRepository->getReference('allowed-to-switch-role');
+
+        $payLoad = [];
+
+        $data = json_encode($payLoad);
+
+        $client = static::createClient();
+
+        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+
+        $client->request('DELETE', sprintf('/api/user-roles/%d', $roleToDelete->getId()), [], [], $headers, $data);
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
+    }
 }
