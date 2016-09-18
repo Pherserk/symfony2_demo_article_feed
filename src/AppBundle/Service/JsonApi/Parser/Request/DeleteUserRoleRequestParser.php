@@ -6,6 +6,10 @@ namespace AppBundle\Service\JsonApi\Parser\Request;
 use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class DeleteUserRoleRequestParser
+ * @package AppBundle\Service\JsonApi\Parser\Request
+ */
 class DeleteUserRoleRequestParser extends AbstractRequestParser
 {
     /**
@@ -17,6 +21,10 @@ class DeleteUserRoleRequestParser extends AbstractRequestParser
         parent::__construct($jrd);
     }
 
+    /**
+     * @param Request $request
+     * @return ValidatedRequest
+     */
     public function parse(Request $request)
     {
         $data = $this->jrd->deserialize($request);

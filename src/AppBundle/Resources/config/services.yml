@@ -120,6 +120,11 @@ services:
       arguments:
           jrd: '@json_api.deserializer.json_request_deserializer'
 
+  json.api.parser.request.delete_user_group:
+      class: AppBundle\Service\JsonApi\Parser\Request\DeleteUserGroupRequestParser
+      arguments:
+          jrd: '@json_api.deserializer.json_request_deserializer'
+
   json_api.event_listener.json_exception_listener:
       class: 'AppBundle\Service\JsonApi\EventListener\JsonExceptionListener'
       arguments:
