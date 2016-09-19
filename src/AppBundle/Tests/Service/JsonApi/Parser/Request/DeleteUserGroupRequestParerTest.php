@@ -5,6 +5,7 @@ namespace AppBundle\Tests\Service\JsonApi\Parser\Request;
 
 use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
 use AppBundle\Service\JsonApi\Parser\Request\DeleteUserGroupRequestParser;
+use AppBundle\Service\JsonApi\Validator\JsonRequestValidator;
 use Symfony\Component\HttpFoundation\Request;
 
 class DeleteUserGroupRequestParerTest extends \PHPUnit_Framework_TestCase
@@ -18,7 +19,8 @@ class DeleteUserGroupRequestParerTest extends \PHPUnit_Framework_TestCase
         $request->getContent()->willReturn(json_encode($payLoad));
 
         $jsonRequesDeserializer = new JsonRequestDeserializer();
-        $newUserGroupRequestParser = new DeleteUserGroupRequestParser($jsonRequesDeserializer);
+        $jsonRequestValidator = new JsonRequestValidator();
+        $newUserGroupRequestParser = new DeleteUserGroupRequestParser($jsonRequesDeserializer, $jsonRequestValidator);
 
         $parsedRequest = $newUserGroupRequestParser->parse($request->reveal());
 

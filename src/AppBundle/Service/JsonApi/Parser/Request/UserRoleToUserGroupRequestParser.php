@@ -3,21 +3,10 @@
 namespace AppBundle\Service\JsonApi\Parser\Request;
 
 
-
-use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserRoleToUserGroupRequestParser extends AbstractRequestParser
 {
-    /**
-     * AddUserRoleToUserGroupRequestParser constructor.
-     * @param JsonRequestDeserializer $jrd
-     */
-    public function __construct(JsonRequestDeserializer $jrd)
-    {
-        parent::__construct($jrd);
-    }
-
     public function parse(Request $request)
     {
         $deserializedRequest = $this->jrd->deserialize($request);

@@ -3,7 +3,6 @@
 namespace AppBundle\Service\JsonApi\Parser\Request;
 
 
-use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -12,15 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DeleteUserGroupRequestParser extends AbstractRequestParser
 {
-    /**
-     * DeleteUserGroupRequestParser constructor.
-     * @param JsonRequestDeserializer $jrd
-     */
-    public function __construct(JsonRequestDeserializer $jrd)
-    {
-        parent::__construct($jrd);
-    }
-
     /**
      * @param Request $request
      * @return ValidatedRequest
