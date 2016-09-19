@@ -3,6 +3,7 @@
 namespace AppBundle\Service\JsonApi\Validator;
 
 
+use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request;
 
 class JsonRequestValidator
@@ -11,14 +12,17 @@ class JsonRequestValidator
 
     public function validate(Request $request)
     {
-        {
-            $acceptHeaders = $request->headers->get('Accept');
+        $this->assertHeaders($request->headers);
+    }
 
-            if (is_array($acceptHeaders)) {
-                return in_array(self::JSON_API_ACCEPT_HEADER, $acceptHeaders, true);
-            }
+    public function assertHeaders(HeaderBag $headers)
+    {
+        $acceptHeaders = $headers->get('Accept');
 
-            return self::JSON_API_ACCEPT_HEADER === $acceptHeaders;
+        if (is_array($acceptHeaders)) {
+            return in_array(self::JSON_API_ACCEPT_HEADER, $acceptHeaders, true);
         }
+
+        return self::JSON_API_ACCEPT_HEADER === $acceptHeaders;
     }
 }
