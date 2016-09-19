@@ -72,7 +72,7 @@ class UserGroupControllerTest extends ApiWebTestCase
         $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
     }
     
-    public function testUpdateUserRolesAction()
+    public function testAddUserRolesAction()
     {
         $referenceRepository = $this
             ->loadFixtures([

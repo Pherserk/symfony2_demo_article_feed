@@ -83,7 +83,7 @@ class UserGroupController extends Controller
      * @Method("POST")
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
-    public function updateUserRolesAction(Request $request, UserGroup $userGroup)
+    public function addUserRolesAction(Request $request, UserGroup $userGroup)
     {
         $parsedRequest = $this->get('json.api.parser.request.user_role_to_user_group')
             ->parse($request);
