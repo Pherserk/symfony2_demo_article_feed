@@ -20,9 +20,14 @@ class UserGroupControllerTest extends ApiWebTestCase
 
         $loggedUser = $referenceRepository->getReference('super-admin');
 
-        $payLoad =  [
-            'name' => 'GROUP_TEST',
-        ];
+        $payLoad = new \stdClass();
+
+        $attributes = new \stdClass();
+        $attributes->name = 'GROUP_TEST';
+
+        $payLoad->data = new \stdClass();
+        $payLoad->data->type = 'userGroups';
+        $payLoad->data->attributes = $attributes;
 
         $data = json_encode($payLoad);
 

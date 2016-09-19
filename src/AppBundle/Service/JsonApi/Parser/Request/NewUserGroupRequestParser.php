@@ -23,15 +23,27 @@ class NewUserGroupRequestParser extends AbstractRequestParser
      */
     public function parse(Request $request)
     {
-        $data = $this->jrd->deserialize($request, true);
+        $deserializedRequest = $this->jrd->deserialize($request);
         $errors = [];
 
-        if (!isset($data['name'])) {
-            $errors['name'][] = 'Missing field';
-        } else if (strpos($data['name'], 'GROUP_') !== 0) {
-            $errors['name'][] = 'Must start with GROUP_';
+        if (!isset($deserializedRequest->data)) {
+            $errors['data'][] = 'Missing field';
+        } else {
+            if (!isset($deserializedRequest->data->type)) {
+                $errors['data']['type'][] = 'Missing field';
+            } else if ($deserializedRequest->data->type !== 'userGroups') {
+                $errors['data']['type'][] = sprintf('Expected userGroups, %s found', $deserializedRequest->data->type);
+            }
+
+            if (!isset($deserializedRequest->data->attributes)) {
+                $errors['data']['attributes'][] = 'Missing field';
+            } else if (!isset($deserializedRequest->data->attributes->name)) {
+                $errors['data']['attributes']['name'] = 'Missing field';
+            } else if (strpos($deserializedRequest->data->attributes->name, 'GROUP_') !== 0) {
+                $errors['data']['attributes']['name'] = 'Must start with GROUP_';
+            }
         }
 
-        return new ValidatedRequest($data, $errors);
+        return new ValidatedRequest($deserializedRequest, $errors);
     }
 }

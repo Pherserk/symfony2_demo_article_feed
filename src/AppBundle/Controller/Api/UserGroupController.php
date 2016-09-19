@@ -32,13 +32,13 @@ class UserGroupController extends Controller
         $parsedRequest = $this->get('json_api.parser.request.new_user_group')
             ->parse($request);
 
-        $data = $parsedRequest->getData();
+        $parsedData = $parsedRequest->getData();
 
         if (!$parsedRequest->isPassed()) {
             return new JsonResponse($parsedRequest->getErrors(), Response::HTTP_BAD_REQUEST);
         }
 
-        $userGroup = new UserGroup($data['name']);
+        $userGroup = new UserGroup($parsedData->data->attributes->name);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($userGroup);
@@ -85,7 +85,7 @@ class UserGroupController extends Controller
      */
     public function updateUserRolesAction(Request $request, UserGroup $userGroup)
     {
-        $parsedRequest = $this->get('json.api.parser.request.add_user_role_to_user_group')
+        $parsedRequest = $this->get('json.api.parser.request.user_role_to_user_group')
             ->parse($request);
 
         $relationShips = $parsedRequest->getData();
@@ -129,7 +129,7 @@ class UserGroupController extends Controller
      */
     public function deleteUserRolesAction(Request $request, UserGroup $userGroup)
     {
-        $parsedRequest = $this->get('json.api.parser.request.add_user_role_to_user_group')
+        $parsedRequest = $this->get('json.api.parser.request.user_role_to_user_group')
             ->parse($request);
 
         $relationShips = $parsedRequest->getData();
