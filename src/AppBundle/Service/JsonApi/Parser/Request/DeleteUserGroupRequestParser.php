@@ -27,9 +27,9 @@ class DeleteUserGroupRequestParser extends AbstractRequestParser
      */
     public function parse(Request $request)
     {
-        $data = $this->jrd->deserialize($request, true);
+        $parsedRequest = $this->jrd->deserialize($request);
         $errors = [];
 
-        return new ValidatedRequest($data, $errors);
+        return new ValidatedRequest($parsedRequest, $errors);
     }
 }
