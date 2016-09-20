@@ -29,6 +29,9 @@ class UserGroupController extends Controller
      */
     public function newAction(Request $request)
     {
+        $this->get('json_api.validator.json_request_validator')
+            ->validate($request);
+
         $parsedRequest = $this->get('json_api.parser.request.new_user_group')
             ->parse($request);
 
@@ -62,6 +65,9 @@ class UserGroupController extends Controller
      */
     public function deleteAction(Request $request, UserGroup $userGroup)
     {
+        $this->get('json_api.validator.json_request_validator')
+            ->validate($request);
+
         $parsedRequest = $this->get('json.api.parser.request.delete_user_group')
             ->parse($request);
 
@@ -85,6 +91,9 @@ class UserGroupController extends Controller
      */
     public function addUserRolesAction(Request $request, UserGroup $userGroup)
     {
+        $this->get('json_api.validator.json_request_validator')
+            ->validate($request);
+
         $parsedRequest = $this->get('json.api.parser.request.user_role_to_user_group')
             ->parse($request);
 
@@ -129,6 +138,9 @@ class UserGroupController extends Controller
      */
     public function deleteUserRolesAction(Request $request, UserGroup $userGroup)
     {
+        $this->get('json_api.validator.json_request_validator')
+            ->validate($request);
+
         $parsedRequest = $this->get('json.api.parser.request.user_role_to_user_group')
             ->parse($request);
 

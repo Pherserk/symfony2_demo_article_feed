@@ -29,21 +29,19 @@ class NewUserRequestParser extends AbstractRequestParser
     /**
      * NewUserRequestValidator constructor.
      * @param UsernameValidator $unv
-     * @param JsonRequestValidator $jrv,
      * @param PlainPasswordValidator $ppv
      * @param EmailValidator $ev
      * @param MobileNumberValidator $mnv
      */
     public function __construct(
         JsonRequestDeserializer $jrd,
-        JsonRequestValidator $jrv,
         UsernameValidator $unv,
         PlainPasswordValidator $ppv,
         EmailValidator $ev,
         MobileNumberValidator $mnv
     )
     {
-        parent::__construct($jrd, $jrv);
+        parent::__construct($jrd);
 
         $this->unv = $unv;
         $this->ppv = $ppv;

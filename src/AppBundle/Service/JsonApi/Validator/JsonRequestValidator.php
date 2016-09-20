@@ -5,6 +5,8 @@ namespace AppBundle\Service\JsonApi\Validator;
 
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class JsonRequestValidator
 {
@@ -12,7 +14,9 @@ class JsonRequestValidator
 
     public function validate(Request $request)
     {
-        $this->assertHeaders($request->headers);
+        if (!$this->assertHeaders($request->headers)) {
+            throw new HttpException(Response::HTTP_BAD_REQUEST, 'Wrong json API headers');
+        }
     }
 
     public function assertHeaders(HeaderBag $headers)

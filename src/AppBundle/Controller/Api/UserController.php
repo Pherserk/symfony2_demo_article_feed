@@ -27,6 +27,9 @@ class UserController extends Controller
      */
     public function newAction(Request $request)
     {
+        $this->get('json_api.validator.json_request_validator')
+            ->validate($request);
+        
         $parsedRequest = $this->get('json_api.parser.request.new_user')
             ->parse($request);
 

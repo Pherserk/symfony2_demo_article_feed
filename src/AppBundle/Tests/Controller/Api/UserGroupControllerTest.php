@@ -33,7 +33,9 @@ class UserGroupControllerTest extends ApiWebTestCase
 
         $client = static::createClient();
 
-        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+        $headers = [];
+        $this->getAuthorizedHeaders($loggedUser->getUsername(), $headers);
+        $this->getJsonApiAcceptdHeaders($headers);
 
         $client->request('POST', '/api/user-groups', [], [], $headers, $data);
         $response = $client->getResponse();
@@ -64,7 +66,9 @@ class UserGroupControllerTest extends ApiWebTestCase
 
         $client = static::createClient();
 
-        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+        $headers = [];
+        $this->getAuthorizedHeaders($loggedUser->getUsername(), $headers);
+        $this->getJsonApiAcceptdHeaders($headers);
 
         $client->request('DELETE', sprintf('/api/user-groups/%d', $groupToDelete->getId()), [], [], $headers, $data);
         $response = $client->getResponse();
@@ -100,7 +104,9 @@ class UserGroupControllerTest extends ApiWebTestCase
         $data = json_encode($payLoad);
         $client = static::createClient();
 
-        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+        $headers = [];
+        $this->getAuthorizedHeaders($loggedUser->getUsername(), $headers);
+        $this->getJsonApiAcceptdHeaders($headers);
 
         $client->request(
             'POST',
@@ -144,7 +150,9 @@ class UserGroupControllerTest extends ApiWebTestCase
         $data = json_encode($payLoad);
         $client = static::createClient();
 
-        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+        $headers = [];
+        $this->getAuthorizedHeaders($loggedUser->getUsername(), $headers);
+        $this->getJsonApiAcceptdHeaders($headers);
 
         $client->request(
             'DELETE',

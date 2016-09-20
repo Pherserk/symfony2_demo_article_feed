@@ -28,7 +28,9 @@ class UserRoleControllerTest extends ApiWebTestCase
 
         $client = static::createClient();
 
-        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+        $headers = [];
+        $this->getAuthorizedHeaders($loggedUser->getUsername(), $headers);
+        $this->getJsonApiAcceptdHeaders($headers);
 
         $client->request('POST', '/api/user-roles', [], [], $headers, $data);
         $response = $client->getResponse();
@@ -59,7 +61,9 @@ class UserRoleControllerTest extends ApiWebTestCase
 
         $client = static::createClient();
 
-        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+        $headers = [];
+        $this->getAuthorizedHeaders($loggedUser->getUsername(), $headers);
+        $this->getJsonApiAcceptdHeaders($headers);
 
         $client->request('DELETE', sprintf('/api/user-roles/%d', $roleToDelete->getId()), [], [], $headers, $data);
         $response = $client->getResponse();

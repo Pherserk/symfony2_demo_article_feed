@@ -45,7 +45,6 @@ class NewUserRequestParserTest extends \PHPUnit_Framework_TestCase
 
         $parser = new NewUserRequestParser(
             new JsonRequestDeserializer(),
-            new JsonRequestValidator(),
             $userNameValidator->reveal(),
             $plainPasswordValidator->reveal(),
             $emailValidator->reveal(),

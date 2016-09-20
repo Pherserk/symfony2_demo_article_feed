@@ -14,17 +14,14 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class AbstractRequestParser
 {
     protected $jrd;
-    protected $rv;
 
     /**
      * AbstractRequestValidator constructor.
      * @param JsonRequestDeserializer $jrd
-     * @param JsonRequestValidator $jrv
      */
-    public function __construct(JsonRequestDeserializer $jrd, JsonRequestValidator $jrv)
+    public function __construct(JsonRequestDeserializer $jrd)
     {
         $this->jrd = $jrd;
-        $this->jrv = $jrv;
     }
 
     abstract public function parse(Request $request);

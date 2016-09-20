@@ -28,6 +28,9 @@ class UserRoleController extends Controller
      */
     public function newAction(Request $request)
     {
+        $this->get('json_api.validator.json_request_validator')
+            ->validate($request);
+
         $parsedRequest = $this->get('json_api.parser.request.new_user_role')
             ->parse($request);
 
@@ -61,6 +64,9 @@ class UserRoleController extends Controller
      */
     public function deleteAction(Request $request, UserRole $userRole)
     {
+        $this->get('json_api.validator.json_request_validator')
+            ->validate($request);
+        
         $parsedRequest = $this->get('json.api.parser.request.delete_user_role')
             ->parse($request);
 

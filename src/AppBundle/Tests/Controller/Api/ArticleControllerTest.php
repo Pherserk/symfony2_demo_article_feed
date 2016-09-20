@@ -30,7 +30,9 @@ class ArticleControllerTest extends ApiWebTestCase
             ]
         );
 
-        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+        $headers = [];
+        $this->getAuthorizedHeaders($loggedUser->getUsername(), $headers);
+        $this->getJsonApiAcceptdHeaders($headers);
 
         $client->request('POST', '/api/articles', [], [], $headers, $data);
         $response = $client->getResponse();
@@ -58,9 +60,15 @@ class ArticleControllerTest extends ApiWebTestCase
 
         $client = static::createClient();
 
+        $headers = [];
+        $this->getJsonApiAcceptdHeaders($headers);
+
         $client->request(
             'GET',
-            sprintf('/api/articles/%d', $referenceRepository->getReference('article-1')->getId())
+            sprintf('/api/articles/%d', $referenceRepository->getReference('article-1')->getId()),
+            [],
+            [],
+            $headers
         );
 
         $response = $client->getResponse();

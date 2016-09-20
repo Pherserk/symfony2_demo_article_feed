@@ -23,8 +23,7 @@ class NewUserGroupRequestParserTest extends \PHPUnit_Framework_TestCase
         $request->getContent()->willReturn(json_encode($payLoad));
 
         $jsonRequesDeserializer = new JsonRequestDeserializer();
-        $jsonRequestValidator = new JsonRequestValidator();
-        $newUserGroupRequestParser = new NewUserGroupRequestParser($jsonRequesDeserializer, $jsonRequestValidator);
+        $newUserGroupRequestParser = new NewUserGroupRequestParser($jsonRequesDeserializer);
 
         $parsedRequest = $newUserGroupRequestParser->parse($request->reveal());
 

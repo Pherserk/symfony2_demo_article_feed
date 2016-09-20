@@ -7,7 +7,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class ApiWebTestCase extends WebTestCase
 {
-    protected function getAuthorizedHeaders($username, $headers = array())
+    protected function getAuthorizedHeaders($username, &$headers = [])
     {
         $token = $this->getContainer()
             ->get('lexik_jwt_authentication.encoder')
@@ -15,7 +15,11 @@ class ApiWebTestCase extends WebTestCase
 
         # FIXME browserkit internal bug
         $headers['HTTP_Authorization'] = 'Bearer '.$token;
-        
-        return $headers;
+    }
+
+    protected function getJsonApiAcceptdHeaders(&$headers = [])
+    {
+        # FIXME browserkit internal bug
+        $headers['HTTP_Accept'] = 'Accept: application/vnd.api+json';
     }
 }

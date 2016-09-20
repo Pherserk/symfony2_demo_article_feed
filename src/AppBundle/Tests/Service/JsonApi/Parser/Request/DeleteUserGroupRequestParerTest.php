@@ -19,8 +19,7 @@ class DeleteUserGroupRequestParerTest extends \PHPUnit_Framework_TestCase
         $request->getContent()->willReturn(json_encode($payLoad));
 
         $jsonRequesDeserializer = new JsonRequestDeserializer();
-        $jsonRequestValidator = new JsonRequestValidator();
-        $newUserGroupRequestParser = new DeleteUserGroupRequestParser($jsonRequesDeserializer, $jsonRequestValidator);
+        $newUserGroupRequestParser = new DeleteUserGroupRequestParser($jsonRequesDeserializer);
 
         $parsedRequest = $newUserGroupRequestParser->parse($request->reveal());
 
