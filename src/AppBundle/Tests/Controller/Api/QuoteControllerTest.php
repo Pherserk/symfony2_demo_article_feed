@@ -31,7 +31,9 @@ class QuoteControllerTest extends ApiWebTestCase
             ]
         );
 
-        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+        $headers = [];
+        $this->getAuthorizedHeaders($loggedUser->getUsername(), $headers);
+        $this->getJsonApiAcceptdHeaders($headers);
 
         $client->request('POST', '/api/quotes', [], [], $headers, $data);
         $response = $client->getResponse();

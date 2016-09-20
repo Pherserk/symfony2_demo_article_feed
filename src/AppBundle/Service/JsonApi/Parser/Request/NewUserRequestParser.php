@@ -4,6 +4,7 @@ namespace AppBundle\Service\JsonApi\Parser\Request;
 
 
 use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
+use AppBundle\Service\JsonApi\Validator\JsonRequestValidator;
 use AppBundle\Service\Validator\EmailValidator;
 use AppBundle\Service\Validator\MobileNumberValidator;
 use AppBundle\Service\Validator\PlainPasswordValidator;
@@ -55,7 +56,7 @@ class NewUserRequestParser extends AbstractRequestParser
      */
     public function parse(Request $request)
     {
-        $data = $this->jrd->deserialize($request);
+        $data = $this->jrd->deserialize($request, true);
         $errors = [];
 
         if (!isset($data['username'])) {

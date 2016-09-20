@@ -4,6 +4,7 @@ namespace AppBundle\Service\JsonApi\Parser\Request;
 
 
 use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
+use AppBundle\Service\JsonApi\Validator\JsonRequestValidator;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

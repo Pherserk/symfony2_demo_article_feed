@@ -31,7 +31,9 @@ class VoteControllerTest extends ApiWebTestCase
             ]
         );
 
-        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+        $headers = [];
+        $this->getAuthorizedHeaders($loggedUser->getUsername(), $headers);
+        $this->getJsonApiAcceptdHeaders($headers);
 
         $client->request('POST', '/api/votes', [], [], $headers, $data);
 
@@ -70,7 +72,9 @@ class VoteControllerTest extends ApiWebTestCase
             ]
         );
 
-        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+        $headers = [];
+        $this->getAuthorizedHeaders($loggedUser->getUsername(), $headers);
+        $this->getJsonApiAcceptdHeaders($headers);
 
         $client->request('POST', '/api/votes', [], [], $headers, $data);
 

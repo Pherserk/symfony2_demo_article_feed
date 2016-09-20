@@ -5,6 +5,7 @@ namespace AppBundle\Tests\Service\JsonApi\Parser\Request;
 
 use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
 use AppBundle\Service\JsonApi\Parser\Request\NewUserRequestParser;
+use AppBundle\Service\JsonApi\Validator\JsonRequestValidator;
 use AppBundle\Service\Validator\EmailValidator;
 use AppBundle\Service\Validator\MobileNumberValidator;
 use AppBundle\Service\Validator\PlainPasswordValidator;

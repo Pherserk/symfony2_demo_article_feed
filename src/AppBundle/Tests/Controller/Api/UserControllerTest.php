@@ -28,9 +28,12 @@ class UserControllerTest extends ApiWebTestCase
 
         $data = json_encode($payLoad);
 
-        $client->request('POST', '/api/users', [], [], [], $data);
-        $response = $client->getResponse();
+        $headers = [];
+        $this->getJsonApiAcceptdHeaders($headers);
 
+        $client->request('POST', '/api/users', [], [], $headers, $data);
+        $response = $client->getResponse();
+        
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
 
         $decodedResponse = json_decode($response->getContent());
@@ -60,7 +63,10 @@ class UserControllerTest extends ApiWebTestCase
 
         $data = json_encode($payLoad);
 
-        $client->request('POST', '/api/users', [], [], [], $data);
+        $headers = [];
+        $this->getJsonApiAcceptdHeaders($headers);
+
+        $client->request('POST', '/api/users', [], [], $headers, $data);
 
         $response = $client->getResponse();
 

@@ -23,14 +23,14 @@ class ValidatedRequest
      * @param array $data
      * @param array $errors
      */
-    public function __construct(array $data, array $errors)
+    public function __construct($data, array $errors)
     {
         $this->data = $data;
         $this->errors = $errors;
     }
 
     /**
-     * @return array
+     * @return array|object
      */
     public function getData()
     {

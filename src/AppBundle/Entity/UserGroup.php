@@ -74,6 +74,15 @@ class UserGroup
 
     /**
      * @param UserRole $role
+     * @return bool
+     */
+    public function hasRole(UserRole $role)
+    {
+        return $this->roles->contains($role);
+    }
+
+    /**
+     * @param UserRole $role
      * @return $this
      */
     public function addRole(UserRole $role)

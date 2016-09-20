@@ -28,6 +28,9 @@ class ArticleController extends Controller
      */
     public function newAction(Request $request)
     {
+        $this->get('json_api.validator.json_request_validator')
+            ->validate($request);
+
         $data = json_decode($request->getContent(), true);
 
         if (!isset($data['title'])) {
@@ -65,6 +68,9 @@ class ArticleController extends Controller
      */
     public function showAction(Request $request, $articleId)
     {
+        $this->get('json_api.validator.json_request_validator')
+            ->validate($request);
+        
         $em = $this->getDoctrine()->getManager();
         $article = $em->getRepository('AppBundle:Article')->find($articleId);
 
