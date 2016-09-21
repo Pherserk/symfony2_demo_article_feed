@@ -132,6 +132,37 @@ class UserGroupController extends Controller
     }
 
     /**
+     * @Route("/{userGroup}", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     */
+    public function updateAction(Request $request, UserGroup $userGroup)
+    {
+        $this->get('json_api.validator.json_request_validator')
+            ->validate($request);
+
+        $parsedRequest = $this->get('json.api.parser.request.update_user_group')
+            ->parse($request);
+
+        $instructions = $parsedRequest->getData();
+
+        if (!$parsedRequest->isPassed()) {
+            return new JsonResponse($parsedRequest->getErrors(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $attributes = $instructions->data->attributes;
+        if (isset($attributes->name)) {
+            $userGroup->setName($attributes->name);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($userGroup);
+        $em->flush($userGroup);
+
+        return new JsonResponse($instructions, Response::HTTP_OK);
+    }
+
+    /**
      * @Route("/{userGroup}/relationships/user-roles", options={"expose"=true})
      * @Method("DELETE")
      * @Security("is_granted('ROLE_SUPER_ADMIN')")

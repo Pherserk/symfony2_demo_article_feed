@@ -57,11 +57,21 @@ class UserGroup
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param string
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
     }
 
     /**

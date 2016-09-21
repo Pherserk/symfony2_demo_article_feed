@@ -73,9 +73,50 @@ class UserGroupControllerTest extends ApiWebTestCase
         $client->request('DELETE', sprintf('/api/user-groups/%d', $groupToDelete->getId()), [], [], $headers, $data);
         $response = $client->getResponse();
 
-        $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
     }
-    
+
+
+    public function testUpdate()
+    {
+        $referenceRepository = $this
+            ->loadFixtures([
+                'AppBundle\DataFixtures\ORM\LoadUserRoleData',
+                'AppBundle\DataFixtures\ORM\LoadUserGroupData',
+                'AppBundle\DataFixtures\ORM\LoadUserData',
+            ])
+            ->getReferenceRepository();
+
+        $loggedUser = $referenceRepository->getReference('super-admin');
+        $groupToModify = $referenceRepository->getReference('user-group');
+
+        $payLoad = new \stdClass();
+        $payLoad->data = new \stdClass();
+        $payLoad->data->attributes = new \stdClass();
+        $payLoad->data->attributes->name = 'GROUP_TEST_UPDATE';
+
+        $data = json_encode($payLoad);
+        $client = static::createClient();
+
+        $headers = [];
+        $this->getAuthorizedHeaders($loggedUser->getUsername(), $headers);
+        $this->getJsonApiAcceptdHeaders($headers);
+
+        $client->request(
+            'PATCH',
+            sprintf('/api/user-groups/%d', $groupToModify->getId()),
+            [],
+            [],
+            $headers,
+            $data
+        );
+
+        $response = $client->getResponse();
+
+        self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        self::assertEquals($payLoad, json_decode($response->getContent()));
+    }
+
     public function testAddUserRolesAction()
     {
         $referenceRepository = $this
@@ -119,7 +160,7 @@ class UserGroupControllerTest extends ApiWebTestCase
 
         $response = $client->getResponse();
 
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
     public function testDeleteUserRolesAction()
@@ -165,7 +206,7 @@ class UserGroupControllerTest extends ApiWebTestCase
 
         $response = $client->getResponse();
 
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 }
 
