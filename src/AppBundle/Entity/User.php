@@ -2,8 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 
@@ -21,7 +21,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", nullable=false, length=32)
+     * @ORM\Column(type="string", nullable=false, length=32, unique=true)
      */
     private $username;
 
@@ -37,6 +37,13 @@ class User implements UserInterface
     private $salt;
 
     /**
+     * @var ArrayCollection|UserGroup[]
+     * @ORM\ManyToMany(targetEntity="UserGroup")
+     * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
+     */
+    private $groups;
+
+    /**
      * @ORM\Column(type="string", nullable=false, length=256)
      */
     private $email;
@@ -47,19 +54,16 @@ class User implements UserInterface
     private $mobileNumber;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $emailConfirmedAt;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $mobileConfirmedAt;
-
-    /**
-     * @ORM\Column(type="string", nullable=false, length=8)
+     * @ORM\OneToOne(targetEntity="ConfirmationPin", cascade={"persist"})
+     * @ORM\JoinColumn(name="confirmation_pin_id", referencedColumnName="id", onDelete="set null")
      */
     private $confirmationPin;
+
+    /**
+     * @ORM\OneToOne(targetEntity="ConfirmationToken", cascade={"persist"})
+     * @ORM\JoinColumn(name="confirmation_token_id", referencedColumnName="id", onDelete="set null")
+     */
+    private $confirmationToken;
 
     /**
      * User constructor.
@@ -70,12 +74,12 @@ class User implements UserInterface
     public function __construct($username, $email, $mobileNumber)
     {
         $this->username = $username;
+        $this->groups = new ArrayCollection();
+        $this->salt = null;
         $this->email = $email;
         $this->mobileNumber = $mobileNumber;
-        $this->salt = null;
-        $this->emailConfirmedAt = null;
-        $this->mobileConfirmedAt = null;
         $this->confirmationPin = null;
+        $this->confirmationToken = null;
     }
 
     /**
@@ -92,6 +96,55 @@ class User implements UserInterface
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * @return UserGroup[]|ArrayCollection
+     */
+    public function getGroups()
+    {
+        return $this->groups;
+    }
+
+    /**
+     * @param UserGroup $group
+     * @return $this
+     */
+    public function addGroup(UserGroup $group)
+    {
+        if (!$this->groups->contains($group)) {
+             $this->groups->add($group);
+        }
+        
+        return $this;
+    }
+
+    /**
+     * @param UserGroup $group
+     * @return $this
+     */
+    public function removeGroup(UserGroup $group)
+    {
+        $this->groups->removeElement($group);
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     * This is a proxy and will make some queries, when possibile retrive data once
+     */
+    public function getRoles()
+    {
+        $roles = [];
+        $groups = $this->getGroups();
+        foreach ($groups as $group) {
+            $groupRoles = $group->getRoles();
+            foreach ($groupRoles as $groupRole) {
+                $roles[] = $groupRole->getRole();
+            }
+        }
+
+        return $roles;
     }
 
     /**
@@ -129,14 +182,6 @@ class User implements UserInterface
     }
 
     /**
-     * @return Role[]
-     */
-    public function getRoles()
-    {
-        return ['ROLE_USER'];
-    }
-
-    /**
      * @return string
      */
     public function getEmail()
@@ -153,43 +198,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return \DateTime
-     */
-    public function getEmailConfirmedAt()
-    {
-        return $this->emailConfirmedAt;
-    }
-
-    /**
-     * @param \DateTime $emailConfirmedAt
-     * @return User
-     */
-    public function setEmailConfirmedAt(\DateTime $emailConfirmedAt)
-    {
-        $this->emailConfirmedAt = $emailConfirmedAt;
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getMobileConfirmedAt()
-    {
-        return $this->mobileConfirmedAt;
-    }
-
-    /**
-     * @param \DateTime $mobileConfirmedAt
-     * @return User
-     */
-    public function setMobileConfirmedAt(\DateTime $mobileConfirmedAt)
-    {
-        $this->mobileConfirmedAt = $mobileConfirmedAt;
-        return $this;
-    }
-
-    /**
-     * @return string
+     * @return ConfirmationPin
      */
     public function getConfirmationPin()
     {
@@ -197,13 +206,31 @@ class User implements UserInterface
     }
 
     /**
-     * @param $confirmationPin
+     * @param ConfirmationPin $confirmationPin
      * @return $this
      */
-    public function setConfirmationPin($confirmationPin)
+    public function setConfirmationPin(ConfirmationPin $confirmationPin)
     {
         $this->confirmationPin = $confirmationPin;
+        return $this;
+    }
 
+    /**
+     * @return ConfirmationToken
+     */
+    public function getConfirmationToken()
+    {
+        return $this->confirmationToken;
+    }
+
+    /**
+     * @param ConfirmationToken $confirmationToken
+     * @return User
+     */
+    public function setConfirmationToken(ConfirmationToken $confirmationToken)
+    {
+        $this->confirmationToken = $confirmationToken;
         return $this;
     }
 }
+

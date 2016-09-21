@@ -12,6 +12,8 @@ class TokenControllerTest extends WebTestCase
     {
         $referenceRepository = $this
             ->loadFixtures([
+                'AppBundle\DataFixtures\ORM\LoadUserRoleData',
+                'AppBundle\DataFixtures\ORM\LoadUserGroupData',
                 'AppBundle\DataFixtures\ORM\LoadUserData',
             ])
             ->getReferenceRepository();

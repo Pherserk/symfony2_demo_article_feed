@@ -11,17 +11,23 @@ class UserBuilder
     /** @var UserPasswordEncoderInterface $pe */
     private $pe;
 
-    /** @var UserConfirmationPinGenerator $ucpg */
-    private $ucpg;
+    /** @var ConfirmationPinBuilder $cpb */
+    private $cpb;
+
+    /** @var ConfirmationTokenBuilder $ctb */
+    private $ctb;
 
     /**
      * UserBuilder constructor.
      * @param UserPasswordEncoderInterface $pe
+     * @param ConfirmationPinBuilder $cpb
+     * @param ConfirmationTokenBuilder $ctb
      */
-    public function __construct(UserPasswordEncoderInterface $pe, UserConfirmationPinGenerator $ucpg)
+    public function __construct(UserPasswordEncoderInterface $pe, ConfirmationPinBuilder $cpb, ConfirmationTokenBuilder $ctb)
     {
         $this->pe = $pe;
-        $this->ucpg = $ucpg;
+        $this->cpb = $cpb;
+        $this->ctb  = $ctb;
     }
 
     /**
@@ -37,7 +43,8 @@ class UserBuilder
 
         $user
             ->setPassword($this->pe->encodePassword($user, $password))
-            ->setConfirmationPin($this->ucpg->generate());
+            ->setConfirmationPin($this->cpb->make())
+            ->setConfirmationToken($this->ctb->make());
 
         return $user;
     }

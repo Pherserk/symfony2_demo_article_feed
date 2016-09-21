@@ -13,12 +13,14 @@ class ArticleControllerTest extends ApiWebTestCase
     {
         $referenceRepository = $this
             ->loadFixtures([
+                'AppBundle\DataFixtures\ORM\LoadUserRoleData',
+                'AppBundle\DataFixtures\ORM\LoadUserGroupData',
                 'AppBundle\DataFixtures\ORM\LoadUserData',
             ])
             ->getReferenceRepository();
 
         $loggedUser = $referenceRepository->getReference('user-1');
-
+        
         $client = static::createClient();
 
         $data = json_encode(
@@ -28,7 +30,9 @@ class ArticleControllerTest extends ApiWebTestCase
             ]
         );
 
-        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+        $headers = [];
+        $this->getAuthorizedHeaders($loggedUser->getUsername(), $headers);
+        $this->getJsonApiAcceptdHeaders($headers);
 
         $client->request('POST', '/api/articles', [], [], $headers, $data);
         $response = $client->getResponse();
@@ -47,6 +51,8 @@ class ArticleControllerTest extends ApiWebTestCase
     {
         $referenceRepository = $this
             ->loadFixtures([
+                'AppBundle\DataFixtures\ORM\LoadUserRoleData',
+                'AppBundle\DataFixtures\ORM\LoadUserGroupData',
                 'AppBundle\DataFixtures\ORM\LoadUserData',
                 'AppBundle\DataFixtures\ORM\LoadArticleData',
             ])
@@ -54,9 +60,15 @@ class ArticleControllerTest extends ApiWebTestCase
 
         $client = static::createClient();
 
+        $headers = [];
+        $this->getJsonApiAcceptdHeaders($headers);
+
         $client->request(
             'GET',
-            sprintf('/api/articles/%d', $referenceRepository->getReference('article-1')->getId())
+            sprintf('/api/articles/%d', $referenceRepository->getReference('article-1')->getId()),
+            [],
+            [],
+            $headers
         );
 
         $response = $client->getResponse();

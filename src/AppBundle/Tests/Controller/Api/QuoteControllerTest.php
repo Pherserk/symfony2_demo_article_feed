@@ -12,6 +12,8 @@ class QuoteControllerTest extends ApiWebTestCase
     {
         $referenceRepository = $this
             ->loadFixtures([
+                'AppBundle\DataFixtures\ORM\LoadUserRoleData',
+                'AppBundle\DataFixtures\ORM\LoadUserGroupData',
                 'AppBundle\DataFixtures\ORM\LoadUserData',
                 'AppBundle\DataFixtures\ORM\LoadArticleData',
             ])
@@ -29,7 +31,9 @@ class QuoteControllerTest extends ApiWebTestCase
             ]
         );
 
-        $headers = $this->getAuthorizedHeaders($loggedUser->getUsername());
+        $headers = [];
+        $this->getAuthorizedHeaders($loggedUser->getUsername(), $headers);
+        $this->getJsonApiAcceptdHeaders($headers);
 
         $client->request('POST', '/api/quotes', [], [], $headers, $data);
         $response = $client->getResponse();

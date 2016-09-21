@@ -1,29 +1,146 @@
 parameters:
   app.api.route.prefix: 'app_api'
+
   security.pin.alphabet: '0123456789ABCDEFGJKHILMNOPQRSTUVWXYZ'
   security.pin.length: 4
+  security.pin.duration: 84000 #seconds
+
+  security.token.alphabet: '0123456789ABCDEFGJKHILMNOPQRSTUVWXYZ.-_%&$~*'
+  security.token.length: 16
+  security.token.duration: 84000 #seconds
+
+  security.event.user_registered_event: 'user.registered'
+
+  validator.username.minimum_length: 4
+  validator.username.maximum_length: 16
+  validator.username.admit_spaces: false
+  validator.username.admit_numbers: true
+  validator.username.admitted_special_chars:
+      - [name: 'dot', char: '.']
+      - [name: 'hypen', char: '-']
+      - [name: 'underscore', char: '_']
+
+  validator.plain_passowrd.minimum_length: 8
+  validator.plain_password.maximum_length: 16
+  validator.plain_password.minimum_numbers_count: 1
+  validator.plain_password.minimum_uppercase_chars_count: 1
+  validator.plain_password.minimum_lowercase_chars_count: 1
+  validator.plain_password.minimum_special_chars_count: 1
+  validator.plain_password.admitted_special_chars:
+     - [name: 'dot', char: '.']
+     - [name: 'hypen', char: '-']
+     - [name: 'underscore', char: '_']
+     - [name: 'percent', char: '%']
+     - [name: 'ampersand', char: '&']
+     - [name: 'dollar', char: '$']
+     - [name: 'tilde', char: '~']
+     - [name: 'asterisk', char: '*']
+
 
 services:
-  security.user_confirmation_pin_generator:
-      class: AppBundle\Service\Security\UserConfirmationPinGenerator
+  security.confirmation_pin_builder:
+      class: AppBundle\Service\Security\ConfirmationPinBuilder
       arguments:
           alphabet: '%security.pin.alphabet%'
           length: '%security.pin.length%'
+
+  security.confirmation_token_builder:
+      class: AppBundle\Service\Security\ConfirmationTokenBuilder
+      arguments:
+          alphabet: '%security.token.alphabet%'
+          length: '%security.token.length%'
 
   security.user_builder:
       class: AppBundle\Service\Security\UserBuilder
       arguments:
           pe: "@security.password_encoder"
-          ucpg: "@security.user_confirmation_pin_generator"
+          cpb: "@security.confirmation_pin_builder"
+          ctb: "@security.confirmation_token_builder"
 
   security.orm_user_persister:
       class: AppBundle\Service\Security\ORMUserPersister
       arguments:
           em: "@doctrine.orm.entity_manager"
 
+  validator.username_validator:
+      class: AppBundle\Service\Validator\UsernameValidator
+      arguments:
+          minimumLength: '%validator.username.minimum_length%'
+          maximumLegnth: '%validator.username.maximum_length%'
+          admitNumbers: '%validator.username.admit_numbers%'
+          admitSpaces: '%validator.username.admit_spaces%'
+          admittedSpecialChars: '%validator.username.admitted_special_chars%'
+
+  validator.plain_password_validator:
+      class: AppBundle\Service\Validator\PlainPasswordValidator
+      arguments:
+          minimumLength: '%validator.plain_passowrd.minimum_length%'
+          maximumLength: '%validator.plain_password.maximum_length%'
+          minimumNumbersCount: '%validator.plain_password.minimum_numbers_count%'
+          minimumUppercaseCharsCount: '%validator.plain_password.minimum_uppercase_chars_count%'
+          minumumLowercaseCharsCount: '%validator.plain_password.minimum_lowercase_chars_count%'
+          minimumSpecialCharsCount: '%validator.plain_password.minimum_special_chars_count%'
+          admittedSpecialChars: '%validator.plain_password.admitted_special_chars%'
+
+  validator.domain_name_validator:
+      class: AppBundle\Service\Validator\DomainNameValidator
+
+  validator.email_validator:
+      class: AppBundle\Service\Validator\EmailValidator
+      arguments:
+          dnv: '@validator.domain_name_validator'
+
+  validator.mobile_number_validator:
+      class: AppBundle\Service\Validator\MobileNumberValidator
+
+  json_api.validator.json_request_validator:
+      class: AppBundle\Service\JsonApi\Validator\JsonRequestValidator
+
+  json_api.deserializer.json_request_deserializer:
+      class: AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer
+
+  json_api.parser.request.new_user:
+      class: AppBundle\Service\JsonApi\Parser\Request\NewUserRequestParser
+      arguments:
+          jrd: '@json_api.deserializer.json_request_deserializer'
+          unv: '@validator.username_validator'
+          ppv: '@validator.plain_password_validator'
+          ev: '@validator.email_validator'
+          mnv: '@validator.mobile_number_validator'
+
+  json_api.parser.request.new_user_role:
+      class: AppBundle\Service\JsonApi\Parser\Request\NewUserRoleRequestParser
+      arguments:
+          jrd: '@json_api.deserializer.json_request_deserializer'
+
+  json.api.parser.request.delete_user_role:
+      class: AppBundle\Service\JsonApi\Parser\Request\DeleteUserRoleRequestParser
+      arguments:
+          jrd: '@json_api.deserializer.json_request_deserializer'
+
+  json_api.parser.request.new_user_group:
+      class: AppBundle\Service\JsonApi\Parser\Request\NewUserGroupRequestParser
+      arguments:
+          jrd: '@json_api.deserializer.json_request_deserializer'
+
+  json.api.parser.request.delete_user_group:
+      class: AppBundle\Service\JsonApi\Parser\Request\DeleteUserGroupRequestParser
+      arguments:
+          jrd: '@json_api.deserializer.json_request_deserializer'
+
+  json.api.parser.request.update_user_group:
+      class: AppBundle\Service\JsonApi\Parser\Request\UpdateUserGroupRequestParser
+      arguments:
+          jrd: '@json_api.deserializer.json_request_deserializer'
+
+  json.api.parser.request.user_role_to_user_group:
+      class: AppBundle\Service\JsonApi\Parser\Request\UserRoleToUserGroupRequestParser
+      arguments:
+          jrd: '@json_api.deserializer.json_request_deserializer'
+
   json_api.event_listener.json_exception_listener:
-    class: 'AppBundle\Service\JsonApi\EventListener\JsonExceptionListener'
-    arguments:
-      apiRoutePrefix: '%app.api.route.prefix%'
-    tags:
-      - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 200 }
+      class: 'AppBundle\Service\JsonApi\EventListener\JsonExceptionListener'
+      arguments:
+        apiRoutePrefix: '%app.api.route.prefix%'
+      tags:
+        - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 200 }

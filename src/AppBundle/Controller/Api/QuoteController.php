@@ -28,6 +28,9 @@ class QuoteController extends Controller
      */
     public function newAction(Request $request)
     {
+        $this->get('json_api.validator.json_request_validator')
+            ->validate($request);
+        
         $data = json_decode($request->getContent(), true);
 
         if (!isset($data['articleId'])) {
