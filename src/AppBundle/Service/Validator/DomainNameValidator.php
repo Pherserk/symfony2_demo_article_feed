@@ -25,7 +25,7 @@ class DomainNameValidator implements ValidatorInterface
         $tldTokens = array_slice($domainNameTokens, 1);
 
         foreach ($tldTokens as $tldToken) {
-            if (strlen($tldToken) < 2) {
+            if (mb_strlen($tldToken) < 2) {
                 $errors[] = sprintf('Invalid tld %s', implode('.', $tldTokens));
                 break;
             }

@@ -50,11 +50,11 @@ class UsernameValidator implements ValidatorInterface
     {
         $errors = [];
 
-        if (strlen($username) < $this->minimumLength) {
+        if (mb_strlen($username) < $this->minimumLength) {
             $errors[] = sprintf('Must have a minimum length of %d characters', $this->minimumLength);
         }
 
-        if (strlen($username) > $this->maximumLength) {
+        if (mb_strlen($username) > $this->maximumLength) {
             $errors[] = sprintf('Must have a maximum length of %d characters', $this->maximumLength);
         }
 

@@ -66,11 +66,11 @@ class PlainPasswordValidator implements ValidatorInterface
     {
         $errors = [];
 
-        if (strlen($plainPassword) < $this->minimumLength) {
+        if (mb_strlen($plainPassword) < $this->minimumLength) {
             $errors[] = sprintf('Must have a minimum length of %d characters', $this->minimumLength);
         }
 
-        if (strlen($plainPassword) > $this->maximumLength) {
+        if (mb_strlen($plainPassword) > $this->maximumLength) {
             $errors[] = sprintf('Must have a maximum length of %d characters', $this->maximumLength);
         }
 

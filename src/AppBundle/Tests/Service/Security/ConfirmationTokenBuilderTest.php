@@ -23,7 +23,7 @@ class ConfirmationTokenBuilderTest extends \PHPUnit_Framework_TestCase
         $createdAt =  $token->getCreatedAt();
         $token = $token->getToken();
 
-        self::assertEquals(3, strlen($token));
+        self::assertEquals(3, mb_strlen($token));
         self::assertContains($token[0], $glyphs);
         self::assertContains($token[1], $glyphs);
         self::assertContains($token[2], $glyphs);

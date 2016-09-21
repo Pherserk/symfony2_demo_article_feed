@@ -28,8 +28,8 @@ abstract class AbstractRandomSequenceBuilder
         $this->length = $length;
 
         $this->sequence = '';
-        while (strlen($this->sequence) < $this->length) {
-            $this->sequence .= substr($this->alphabet, mt_rand(0, strlen($this->alphabet)), 1);
+        while (mb_strlen($this->sequence) < $this->length) {
+            $this->sequence .= substr($this->alphabet, mt_rand(0, mb_strlen($this->alphabet)), 1);
         }
     }
 

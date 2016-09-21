@@ -22,7 +22,7 @@ class ConfirmationPinBuilderTest extends \PHPUnit_Framework_TestCase
         $createdAt =  $pin->getCreatedAt();
         $pin = $pin->getPin();
 
-        self::assertEquals(3, strlen($pin));
+        self::assertEquals(3, mb_strlen($pin));
         self::assertContains($pin[0], $glyphs);
         self::assertContains($pin[1], $glyphs);
         self::assertContains($pin[2], $glyphs);
