@@ -1,13 +1,15 @@
 <?php
 
-namespace AppBundle\Service\JsonApi\Parser\Request;
+namespace AppBundle\Service\JsonApi\Parser\Request\UserRole;
 
 
+use AppBundle\Service\JsonApi\Parser\Request\AbstractRequestParser;
+use AppBundle\Service\JsonApi\Parser\Request\ValidatedRequest;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class NewUserRoleRequestParser
- * @package AppBundle\Service\JsonApi\Parser\Request
+ * @package AppBundle\Service\JsonApi\Parser\Request\UserRole
  */
 class NewUserRoleRequestParser extends AbstractRequestParser
 {

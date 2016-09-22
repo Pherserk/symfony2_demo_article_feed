@@ -4,8 +4,7 @@ namespace AppBundle\Tests\Service\JsonApi\Parser\Request;
 
 
 use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
-use AppBundle\Service\JsonApi\Parser\Request\NewUserRequestParser;
-use AppBundle\Service\JsonApi\Validator\JsonRequestValidator;
+use AppBundle\Service\JsonApi\Parser\Request\User\NewUserRequestParser;
 use AppBundle\Service\Validator\EmailValidator;
 use AppBundle\Service\Validator\MobileNumberValidator;
 use AppBundle\Service\Validator\PlainPasswordValidator;
@@ -55,6 +54,5 @@ class NewUserRequestParserTest extends \PHPUnit_Framework_TestCase
 
         self::assertSame([], $parsedRequest->getErrors());
         self::assertSame($payLoad, $parsedRequest->getData());
-
     }
 }

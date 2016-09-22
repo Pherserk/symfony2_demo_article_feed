@@ -1,11 +1,10 @@
 <?php
 
-namespace AppBundle\Tests\Service\JsonApi\Parser\Request;
+namespace AppBundle\Tests\Service\JsonApi\Parser\Request\UserGroup;
 
 
 use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
-use AppBundle\Service\JsonApi\Parser\Request\DeleteUserGroupRequestParser;
-use AppBundle\Service\JsonApi\Validator\JsonRequestValidator;
+use AppBundle\Service\JsonApi\Parser\Request\UserGroup\DeleteUserGroupRequestParser;
 use Symfony\Component\HttpFoundation\Request;
 
 class DeleteUserGroupRequestParerTest extends \PHPUnit_Framework_TestCase

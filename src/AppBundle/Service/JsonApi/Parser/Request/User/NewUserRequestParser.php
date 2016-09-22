@@ -1,10 +1,11 @@
 <?php
 
-namespace AppBundle\Service\JsonApi\Parser\Request;
+namespace AppBundle\Service\JsonApi\Parser\Request\User;
 
 
 use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
-use AppBundle\Service\JsonApi\Validator\JsonRequestValidator;
+use AppBundle\Service\JsonApi\Parser\Request\AbstractRequestParser;
+use AppBundle\Service\JsonApi\Parser\Request\ValidatedRequest;
 use AppBundle\Service\Validator\EmailValidator;
 use AppBundle\Service\Validator\MobileNumberValidator;
 use AppBundle\Service\Validator\PlainPasswordValidator;

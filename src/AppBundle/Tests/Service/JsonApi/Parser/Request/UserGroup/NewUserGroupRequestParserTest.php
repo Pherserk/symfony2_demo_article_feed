@@ -1,11 +1,10 @@
 <?php
 
-namespace AppBundle\Tests\Service\JsonApi\Parser\Request;
+namespace AppBundle\Tests\Service\JsonApi\Parser\Request\UserGroup;
 
 
 use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
-use AppBundle\Service\JsonApi\Parser\Request\NewUserGroupRequestParser;
-use AppBundle\Service\JsonApi\Validator\JsonRequestValidator;
+use AppBundle\Service\JsonApi\Parser\Request\UserGroup\NewUserGroupRequestParser;
 use Symfony\Component\HttpFoundation\Request;
 
 class NewUserGroupRequestParserTest extends \PHPUnit_Framework_TestCase
