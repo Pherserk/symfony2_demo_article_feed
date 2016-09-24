@@ -38,9 +38,9 @@ class UserControllerTest extends ApiWebTestCase
 
         $decodedResponse = json_decode($response->getContent());
 
-        $this->assertEquals('JohnDoe', $decodedResponse->username);
-        $this->assertEquals('john.doe@example.com', $decodedResponse->email);
-        $this->assertEquals('+3933312345678', $decodedResponse->mobile_number);
+        $this->assertEquals('JohnDoe', $decodedResponse->data->attributes->username);
+        $this->assertEquals('john.doe@example.com', $decodedResponse->data->attributes->email);
+        $this->assertEquals('+3933312345678', $decodedResponse->data->attributes->mobile_number);
 
         $this->markTestSkipped('Should not see confirmation_pin in the serialized object');
         $this->assertObjectNotHasAttribute('confirmation_pin', $decodedResponse);

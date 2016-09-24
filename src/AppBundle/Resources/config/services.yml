@@ -99,6 +99,16 @@ services:
   json_api.deserializer.json_request_deserializer:
       class: AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer
 
+  json_api.serialier.json_api_serializer:
+      class: AppBundle\Service\JsonApi\Serializer\JsonApiSerializer
+      arguments:
+          em: '@doctrine.orm.entity_manager'
+
+  json_api.response.json_api_response_builder:
+      class: AppBundle\Service\JsonApi\Response\JsonApiResponseBuilder
+      arguments:
+          serializer: '@json_api.serialier.json_api_serializer'
+
   json_api.parser.request.new_user:
       class: AppBundle\Service\JsonApi\Parser\Request\User\NewUserRequestParser
       arguments:

@@ -45,16 +45,13 @@ class UserRoleController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->persist($userRole);
         $em->flush($userRole);
-        
-        $response = new Response(
-            $this->get('jms_serializer')
-                ->serialize($userRole, 'json'),
-            Response::HTTP_CREATED
-        );
 
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
+        return $this->get('json_api.response.json_api_response_builder')
+            ->make(
+                $userRole,
+                'userRoles',
+                Response::HTTP_CREATED
+            );
     }
 
     /**
@@ -80,6 +77,11 @@ class UserRoleController extends Controller
         $em->remove($userRole);
         $em->flush($userRole);
 
-        return new JsonResponse([], Response::HTTP_NO_CONTENT);
+        return $this->get('json_api.response.json_api_response_builder')
+            ->make(
+                null,
+                'userRoles',
+                Response::HTTP_NO_CONTENT
+            );
     }
 }
