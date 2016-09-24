@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Service\JsonApi\Validator;
+namespace AppBundle\Test\Mock\Service\JsonApi\Validator;
 
 
 use Symfony\Component\HttpFoundation\HeaderBag;
@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class JsonRequestValidator
+class JsonRequestValidatorMock
 {
     const APPLICATION_JSON_API_CONTENT_IANA = 'application/vnd.api+json';
 
@@ -34,10 +34,10 @@ class JsonRequestValidator
             $contentTypeHeadersPassed = (self::APPLICATION_JSON_API_CONTENT_IANA === $contentTypeHeaders);
         }
 
-        if (!$acceptHeadersPassed || !$contentTypeHeadersPassed) {
+        if (!$acceptHeadersPassed /*|| !$contentTypeHeadersPassed*/) {
             $message = $acceptHeadersPassed ? '' : 'Missing Accept Header';
             $message .= $contentTypeHeadersPassed ? ($message !== '') ? ' ' : '' : 'Missing Content-Type Header';
-            
+
             throw new HttpException(Response::HTTP_BAD_REQUEST, $message);
         }
     }

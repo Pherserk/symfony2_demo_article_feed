@@ -3,6 +3,7 @@
 namespace AppBundle\Test;
 
 
+use AppBundle\Service\JsonApi\Validator\JsonRequestValidator;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class ApiWebTestCase extends WebTestCase
@@ -20,6 +21,8 @@ class ApiWebTestCase extends WebTestCase
     protected function getJsonApiAcceptdHeaders(&$headers = [])
     {
         # FIXME browserkit internal bug
-        $headers['HTTP_Accept'] = 'Accept: application/vnd.api+json';
+        $headers['HTTP_Accept'] = JsonRequestValidator::APPLICATION_JSON_API_CONTENT_IANA;
+        # FIXME browserkit internal bug
+        $headers['HTTP_Content-Type'] = JsonRequestValidator::APPLICATION_JSON_API_CONTENT_IANA;
     }
 }

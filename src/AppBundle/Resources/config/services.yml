@@ -94,7 +94,7 @@ services:
       class: AppBundle\Service\Validator\MobileNumberValidator
 
   json_api.validator.json_request_validator:
-      class: AppBundle\Service\JsonApi\Validator\JsonRequestValidator
+      class: '%json_api.validator.json_request_validator_class%'
 
   json_api.deserializer.json_request_deserializer:
       class: AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer
