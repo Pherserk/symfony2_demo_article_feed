@@ -39,7 +39,7 @@ class UserRoleControllerTest extends ApiWebTestCase
 
         $decodedResponse = json_decode($response->getContent());
 
-        self::assertEquals('ROLE_TEST', $decodedResponse->role);
+        self::assertEquals('ROLE_TEST', $decodedResponse->data->attributes->role);
     }
 
     public function testDeleteAction()
