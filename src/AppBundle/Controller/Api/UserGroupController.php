@@ -78,7 +78,48 @@ class UserGroupController extends Controller
         $em->remove($userGroup);
         $em->flush($userGroup);
 
-        return new JsonResponse([], Response::HTTP_NO_CONTENT);
+        return $this->get('json_api.response.json_api_response_builder')
+            ->make(
+                null,
+                'userGroups',
+                Response::HTTP_NO_CONTENT
+            );
+    }
+
+    /**
+     * @Route("/{userGroup}", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     */
+    public function updateAction(Request $request, UserGroup $userGroup)
+    {
+        $this->get('json_api.validator.json_request_validator')
+            ->validate($request);
+
+        $parsedRequest = $this->get('json.api.parser.request.update_user_group')
+            ->parse($request);
+
+        $instructions = $parsedRequest->getData();
+
+        if (!$parsedRequest->isPassed()) {
+            return new JsonResponse($parsedRequest->getErrors(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $attributes = $instructions->data->attributes;
+        if (isset($attributes->name)) {
+            $userGroup->setName($attributes->name);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($userGroup);
+        $em->flush($userGroup);
+
+        return $this->get('json_api.response.json_api_response_builder')
+            ->make(
+                $userGroup,
+                'userGroups',
+                Response::HTTP_OK
+            );
     }
 
     /**
@@ -126,37 +167,6 @@ class UserGroupController extends Controller
         $em->flush($userGroup);
         
         return new JsonResponse([], Response::HTTP_OK);      
-    }
-
-    /**
-     * @Route("/{userGroup}", options={"expose"=true})
-     * @Method("PATCH")
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
-     */
-    public function updateAction(Request $request, UserGroup $userGroup)
-    {
-        $this->get('json_api.validator.json_request_validator')
-            ->validate($request);
-
-        $parsedRequest = $this->get('json.api.parser.request.update_user_group')
-            ->parse($request);
-
-        $instructions = $parsedRequest->getData();
-
-        if (!$parsedRequest->isPassed()) {
-            return new JsonResponse($parsedRequest->getErrors(), Response::HTTP_BAD_REQUEST);
-        }
-
-        $attributes = $instructions->data->attributes;
-        if (isset($attributes->name)) {
-            $userGroup->setName($attributes->name);
-        }
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($userGroup);
-        $em->flush($userGroup);
-
-        return new JsonResponse($instructions, Response::HTTP_OK);
     }
 
     /**

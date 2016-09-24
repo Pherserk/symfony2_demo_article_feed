@@ -30,6 +30,10 @@ class JsonApiSerializer
      */
     public function serialize($payLoad, $type)
     {
+        if (null == $payLoad) {
+            return json_encode(null);
+        }
+
         $serializedPayload = new \stdClass();
         $serializedPayload->data = new \stdClass();
 

@@ -114,7 +114,8 @@ class UserGroupControllerTest extends ApiWebTestCase
         $response = $client->getResponse();
 
         self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
-        self::assertEquals($payLoad, json_decode($response->getContent()));
+        self::assertEquals($groupToModify->getId(), json_decode($response->getContent())->data->id);
+        self::assertEquals($payLoad->data->attributes->name, json_decode($response->getContent())->data->attributes->name);
     }
 
     public function testAddUserRolesAction()
