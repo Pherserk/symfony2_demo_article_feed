@@ -51,15 +51,23 @@ class JsonApiSerializer
         return !$this->em->getMetadataFactory()->isTransient($payLoad);
     }
 
-    private function addEntityColumnValues(&$serializedPayload, $entity){
-        $serializedPayload->data->attributes = new \stdClass();
-
+    private function addEntityColumnValues(&$serializedPayload, $entity)
+    {
         $classMetaData = $this->em->getClassMetadata(get_class($entity));
         $columnNames = $classMetaData->getColumnNames();
+        $attributes = new \stdClass();
         foreach ($columnNames as $columnName){
             $fieldName = $classMetaData->getFieldForColumn($columnName);
             $getter = 'get'.ucfirst($fieldName);
-            $serializedPayload->data->attributes->$columnName = $entity->$getter();
+            if ($fieldName === $classMetaData->getIdentifier()[0]) {
+                $serializedPayload->data->id = $entity->$getter();
+            } else {
+                $attributes->$columnName = $entity->$getter();
+            }
+        }
+
+        if (count($attributes) > 0) {
+            $serializedPayload->data->attributes = $attributes;
         }
     }
 }
