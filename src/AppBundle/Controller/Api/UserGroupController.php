@@ -46,16 +46,13 @@ class UserGroupController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->persist($userGroup);
         $em->flush($userGroup);
-        
-        $response = new Response(
-            $this->get('jms_serializer')
-                ->serialize($userGroup, 'json'),
-            Response::HTTP_CREATED
-        );
 
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
+        return $this->get('json_api.response.json_api_response_builder')
+            ->make(
+                $userGroup,
+                'userGroups',
+                Response::HTTP_CREATED
+            );
     }
 
     /**

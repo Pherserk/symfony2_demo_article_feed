@@ -44,7 +44,7 @@ class UserGroupControllerTest extends ApiWebTestCase
 
         $decodedResponse = json_decode($response->getContent());
 
-        self::assertEquals('GROUP_TEST', $decodedResponse->name);
+        self::assertEquals('GROUP_TEST', $decodedResponse->data->attributes->name);
     }
 
     public function testDeleteAction()
