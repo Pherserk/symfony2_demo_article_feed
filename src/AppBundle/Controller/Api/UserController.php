@@ -56,15 +56,12 @@ class UserController extends Controller
 
         $this->get('security.orm_user_persister')
             ->store($user);
-        
-        $response = new Response(
-            $this->get('jms_serializer')
-                ->serialize($user, 'json'),
-            Response::HTTP_CREATED
-        );
 
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
+        return $this->get('json_api.response.json_api_response_builder')
+            ->make(
+                $user,
+                'userRoles',
+                Response::HTTP_CREATED
+            );
     }
 }
