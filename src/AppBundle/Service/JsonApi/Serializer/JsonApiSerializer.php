@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Service\JsonApi\Serializer;
+use Doctrine\Common\Persistence\Proxy;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
