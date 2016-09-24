@@ -165,8 +165,13 @@ class UserGroupController extends Controller
 
         $em->persist($userGroup);
         $em->flush($userGroup);
-        
-        return new JsonResponse([], Response::HTTP_OK);      
+
+        return $this->get('json_api.response.json_api_response_builder')
+            ->make(
+                $userGroup,
+                'userGroups',
+                Response::HTTP_OK
+            );
     }
 
     /**
@@ -221,6 +226,11 @@ class UserGroupController extends Controller
         $em->persist($userGroup);
         $em->flush($userGroup);
 
-        return new JsonResponse([], Response::HTTP_OK);
+        return $this->get('json_api.response.json_api_response_builder')
+            ->make(
+                $userGroup,
+                'userGroups',
+                Response::HTTP_OK
+            );
     }
 }

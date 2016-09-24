@@ -60,7 +60,7 @@ class UserController extends Controller
         return $this->get('json_api.response.json_api_response_builder')
             ->make(
                 $user,
-                'userRoles',
+                'users',
                 Response::HTTP_CREATED
             );
     }
