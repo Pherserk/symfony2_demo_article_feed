@@ -56,7 +56,7 @@ class JsonApiSerializer
 
         $classMetaData = $this->em->getClassMetadata(get_class($entity));
         $columnNames = $classMetaData->getColumnNames();
-        foreach($columnNames as $columnName){
+        foreach ($columnNames as $columnName){
             $fieldName = $classMetaData->getFieldForColumn($columnName);
             $getter = 'get'.ucfirst($fieldName);
             $serializedPayload->data->attributes->$columnName = $entity->$getter();
