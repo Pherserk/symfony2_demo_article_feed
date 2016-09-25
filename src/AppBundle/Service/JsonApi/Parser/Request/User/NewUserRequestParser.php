@@ -57,45 +57,59 @@ class NewUserRequestParser extends AbstractRequestParser
      */
     public function parse(Request $request)
     {
-        $data = $this->jrd->deserialize($request, true);
+        $deserializedRequest = $this->jrd->deserialize($request);
         $errors = [];
 
-        if (!isset($data['username'])) {
-            $errors['username'][] = 'Missing field';
+        if (!isset($deserializedRequest->data)) {
+            $errors['data'][] = 'Missing field';
         } else {
-            $usernameErrors = $this->unv->validate($data['username']);
-            if (count($usernameErrors)) {
-                $errors['username'] = $usernameErrors;
+            if (!isset($deserializedRequest->data->type)) {
+                $errors['data']['type'][] = 'Missing field';
+            } else if ($deserializedRequest->data->type !== 'users') {
+                $errors['data']['type'][] = sprintf('Expected users, got %s', $deserializedRequest->data->type);
+            }
+
+            if (!isset($deserializedRequest->data->attributes)) {
+                $errors['data']['attributes'][] = 'Missing field';
+            } else {
+                if (!isset($deserializedRequest->data->attributes->username)) {
+                    $errors['data']['attributes']['username'][] = 'Missing field';
+                } else {
+                    $usernameErrors = $this->unv->validate($deserializedRequest->data->attributes->username);
+                    if (count($usernameErrors)) {
+                        $errors['data']['attributes']['username'] = $usernameErrors;
+                    }
+                }
+
+                if (!isset($deserializedRequest->data->attributes->password)) {
+                    $errors['data']['attributes']['password'][] = 'Missing field';
+                } else {
+                    $passwordErrors = $this->ppv->validate($deserializedRequest->data->attributes->password);
+                    if (count($passwordErrors)) {
+                        $errors['data']['attributes']['password'] = $passwordErrors;
+                    }
+                }
+
+                if (!isset($deserializedRequest->data->attributes->email)) {
+                    $errors['data']['attributes']['email'][] = 'Missing field';
+                } else {
+                    $emailErrors = $this->ev->validate($deserializedRequest->data->attributes->email);
+                    if (count($emailErrors)) {
+                        $errors['data']['attributes']['email'] = $emailErrors;
+                    }
+                }
+
+                if (!isset($deserializedRequest->data->attributes->mobileNumber)) {
+                    $errors['data']['attributes']['mobileNumber'][] = 'Missing field';
+                } else {
+                    $mobileNumberErrors = $this->mnv->validate($deserializedRequest->data->attributes->mobileNumber);
+                    if (count($mobileNumberErrors)) {
+                        $errors['data']['attributes']['mobileNumber'] = $mobileNumberErrors;
+                    }
+                }
             }
         }
 
-        if (!isset($data['password'])) {
-            $errors['password'][] = 'Missing field';
-        } else {
-            $passwordErrors = $this->ppv->validate($data['password']);
-            if (count($passwordErrors)) {
-                $errors['password'] = $passwordErrors;
-            }
-        }
-
-        if (!isset($data['email'])) {
-            $errors['email'][] = 'Missing field';
-        } else {
-            $emailErrors = $this->ev->validate($data['email']);
-            if (count($emailErrors)) {
-                $errors['email'] = $emailErrors;
-            }
-        }
-
-        if (!isset($data['mobileNumber'])) {
-            $errors['mobileNumber'][] = 'Missing field';
-        } else {
-            $mobileNumberErrors = $this->mnv->validate($data['mobileNumber']);
-            if (count($mobileNumberErrors)) {
-                $errors['mobileNumber'] = $mobileNumberErrors;
-            }
-        }
-
-        return new ValidatedRequest($data, $errors);
+        return new ValidatedRequest($deserializedRequest, $errors);
     }
 }

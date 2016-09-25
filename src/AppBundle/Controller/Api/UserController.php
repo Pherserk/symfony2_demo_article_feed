@@ -41,10 +41,10 @@ class UserController extends Controller
 
         $user = $this->get('security.user_builder')
             ->make(
-                $data['username'],
-                $data['password'],
-                $data['email'],
-                $data['mobileNumber']
+                $data->data->attributes->username,
+                $data->data->attributes->password,
+                $data->data->attributes->email,
+                $data->data->attributes->mobileNumber
             );
 
         $userGroup = $this->getDoctrine()
