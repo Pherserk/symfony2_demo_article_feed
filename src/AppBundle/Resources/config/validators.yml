@@ -1,0 +1,57 @@
+parameters:
+    validator.username.minimum_length: 4
+    validator.username.maximum_length: 16
+    validator.username.admit_spaces: false
+    validator.username.admit_numbers: true
+    validator.username.admitted_special_chars:
+        - [name: 'dot', char: '.']
+        - [name: 'hypen', char: '-']
+        - [name: 'underscore', char: '_']
+
+    validator.plain_passowrd.minimum_length: 8
+    validator.plain_password.maximum_length: 16
+    validator.plain_password.minimum_numbers_count: 1
+    validator.plain_password.minimum_uppercase_chars_count: 1
+    validator.plain_password.minimum_lowercase_chars_count: 1
+    validator.plain_password.minimum_special_chars_count: 1
+    validator.plain_password.admitted_special_chars:
+       - [name: 'dot', char: '.']
+       - [name: 'hypen', char: '-']
+       - [name: 'underscore', char: '_']
+       - [name: 'percent', char: '%']
+       - [name: 'ampersand', char: '&']
+       - [name: 'dollar', char: '$']
+       - [name: 'tilde', char: '~']
+       - [name: 'asterisk', char: '*']
+
+services:
+    validator.username_validator:
+        class: AppBundle\Service\Validator\UsernameValidator
+        arguments:
+            minimumLength: '%validator.username.minimum_length%'
+            maximumLegnth: '%validator.username.maximum_length%'
+            admitNumbers: '%validator.username.admit_numbers%'
+            admitSpaces: '%validator.username.admit_spaces%'
+            admittedSpecialChars: '%validator.username.admitted_special_chars%'
+
+    validator.plain_password_validator:
+        class: AppBundle\Service\Validator\PlainPasswordValidator
+        arguments:
+            minimumLength: '%validator.plain_passowrd.minimum_length%'
+            maximumLength: '%validator.plain_password.maximum_length%'
+            minimumNumbersCount: '%validator.plain_password.minimum_numbers_count%'
+            minimumUppercaseCharsCount: '%validator.plain_password.minimum_uppercase_chars_count%'
+            minumumLowercaseCharsCount: '%validator.plain_password.minimum_lowercase_chars_count%'
+            minimumSpecialCharsCount: '%validator.plain_password.minimum_special_chars_count%'
+            admittedSpecialChars: '%validator.plain_password.admitted_special_chars%'
+
+    validator.domain_name_validator:
+        class: AppBundle\Service\Validator\DomainNameValidator
+
+    validator.email_validator:
+        class: AppBundle\Service\Validator\EmailValidator
+        arguments:
+            dnv: '@validator.domain_name_validator'
+
+    validator.mobile_number_validator:
+        class: AppBundle\Service\Validator\MobileNumberValidator
