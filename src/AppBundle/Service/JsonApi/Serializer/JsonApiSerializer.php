@@ -49,12 +49,12 @@ class JsonApiSerializer
     private function isDoctrineEntity($payLoad)
     {
         if (is_object($payLoad)) {
-            $payLoad = ($payLoad instanceof Proxy)
+            $objectClass = ($payLoad instanceof Proxy)
                 ? get_parent_class($payLoad)
                 : get_class($payLoad);
         }
 
-        return !$this->em->getMetadataFactory()->isTransient($payLoad);
+        return !$this->em->getMetadataFactory()->isTransient($objectClass);
     }
 
     private function addEntityColumnValues(&$serializedPayload, $entity)
@@ -62,17 +62,19 @@ class JsonApiSerializer
         $classMetaData = $this->em->getClassMetadata(get_class($entity));
         $columnNames = $classMetaData->getColumnNames();
         $attributes = new \stdClass();
-        foreach ($columnNames as $columnName){
+        foreach ($columnNames as $columnName) {
             $fieldName = $classMetaData->getFieldForColumn($columnName);
-            $getter = 'get'.ucfirst($fieldName);
+            $getter = 'get' . ucfirst($fieldName);
             if ($fieldName === $classMetaData->getIdentifier()[0]) {
-                $serializedPayload->data->id = $entity->$getter();
+                if (null !== $entity->$getter()) {
+                    $serializedPayload->data->id = $entity->$getter();
+                }
             } else {
                 $attributes->$columnName = $entity->$getter();
             }
         }
 
-        if (count($attributes) > 0) {
+        if (count((array)$attributes) > 0) {
             $serializedPayload->data->attributes = $attributes;
         }
     }
