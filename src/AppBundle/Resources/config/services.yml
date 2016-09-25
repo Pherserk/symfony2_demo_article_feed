@@ -48,7 +48,7 @@ services:
           - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 200 }
 
   json_api.validator.json_request_validator:
-      class: '%json_api.validator.json_request_validator_class%'
+      class: AppBundle\Service\JsonApi\Validator\JsonRequestValidator
 
   json_api.deserializer.json_api_request_deserializer:
       class: AppBundle\Service\JsonApi\Deserializer\JsonApiRequestDeserializer

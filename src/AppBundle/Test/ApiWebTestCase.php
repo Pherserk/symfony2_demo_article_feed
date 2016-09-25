@@ -20,9 +20,8 @@ class ApiWebTestCase extends WebTestCase
 
     protected function getJsonApiAcceptdHeaders(&$headers = [])
     {
+        $headers['CONTENT_TYPE'] = JsonRequestValidator::APPLICATION_JSON_API_CONTENT_IANA;
         # FIXME browserkit internal bug
         $headers['HTTP_Accept'] = JsonRequestValidator::APPLICATION_JSON_API_CONTENT_IANA;
-        # FIXME browserkit internal bug
-        $headers['HTTP_Content-Type'] = JsonRequestValidator::APPLICATION_JSON_API_CONTENT_IANA;
     }
 }
