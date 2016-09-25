@@ -3,7 +3,7 @@
 namespace AppBundle\Tests\Service\JsonApi\Parser\Request;
 
 
-use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
+use AppBundle\Service\JsonApi\Deserializer\JsonApiRequestDeserializer;
 use AppBundle\Service\JsonApi\Parser\Request\User\NewUserRequestParser;
 use AppBundle\Service\Validator\EmailValidator;
 use AppBundle\Service\Validator\MobileNumberValidator;
@@ -43,7 +43,7 @@ class NewUserRequestParserTest extends \PHPUnit_Framework_TestCase
         $emailValidator->validate('+3933312345678')->willReturn([]);
 
         $parser = new NewUserRequestParser(
-            new JsonRequestDeserializer(),
+            new JsonApiRequestDeserializer(),
             $userNameValidator->reveal(),
             $plainPasswordValidator->reveal(),
             $emailValidator->reveal(),

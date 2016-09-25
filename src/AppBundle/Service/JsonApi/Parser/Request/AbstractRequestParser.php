@@ -3,8 +3,7 @@
 namespace AppBundle\Service\JsonApi\Parser\Request;
 
 
-use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
-use AppBundle\Service\JsonApi\Validator\JsonRequestValidator;
+use AppBundle\Service\JsonApi\Deserializer\JsonApiRequestDeserializer;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -17,9 +16,9 @@ abstract class AbstractRequestParser
 
     /**
      * AbstractRequestValidator constructor.
-     * @param JsonRequestDeserializer $jrd
+     * @param JsonApiRequestDeserializer $jrd
      */
-    public function __construct(JsonRequestDeserializer $jrd)
+    public function __construct(JsonApiRequestDeserializer $jrd)
     {
         $this->jrd = $jrd;
     }

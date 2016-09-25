@@ -3,7 +3,7 @@
 namespace AppBundle\Tests\Service\JsonApi\Parser\Request\UserGroup;
 
 
-use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
+use AppBundle\Service\JsonApi\Deserializer\JsonApiRequestDeserializer;
 use AppBundle\Service\JsonApi\Parser\Request\UserGroup\UpdateUserGroupRequestParser;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -16,7 +16,7 @@ class UpdateUserGroupRequestParserTest extends \PHPUnit_Framework_TestCase
     public function testParse($payLoad, $errors, $data)
     {
         $parser = new UpdateUserGroupRequestParser(
-            new JsonRequestDeserializer()
+            new JsonApiRequestDeserializer()
         );
 
         /** @var Request $request */

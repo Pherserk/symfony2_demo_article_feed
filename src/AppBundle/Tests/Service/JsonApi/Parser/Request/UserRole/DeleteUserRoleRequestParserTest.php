@@ -3,7 +3,7 @@
 namespace AppBundle\Tests\Service\JsonApi\Parser\Request\UserRole;
 
 
-use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
+use AppBundle\Service\JsonApi\Deserializer\JsonApiRequestDeserializer;
 use AppBundle\Service\JsonApi\Parser\Request\UserRole\DeleteUserRoleRequestParser;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -18,7 +18,7 @@ class DeleteUserRoleRequestParserTest extends \PHPUnit_Framework_TestCase
         $request = self::prophesize(Request::class);
         $request->getContent()->willReturn(json_encode($payLoad));
 
-        $parser = new DeleteUserRoleRequestParser(new JsonRequestDeserializer());
+        $parser = new DeleteUserRoleRequestParser(new JsonApiRequestDeserializer());
 
         $parsedRequest = $parser->parse($request->reveal());
 

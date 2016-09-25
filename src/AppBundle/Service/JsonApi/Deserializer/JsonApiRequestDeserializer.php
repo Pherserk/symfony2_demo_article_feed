@@ -6,10 +6,10 @@ namespace AppBundle\Service\JsonApi\Deserializer;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class JsonRequestDeserializer
+ * Class JsonApiRequestDeserializer
  * @package AppBundle\Service\JsonApi\Deserializer
  */
-class JsonRequestDeserializer
+class JsonApiRequestDeserializer
 {
     public function deserialize(Request $request, $assoc = false)
     {

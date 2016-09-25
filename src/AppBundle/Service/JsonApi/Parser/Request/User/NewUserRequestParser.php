@@ -3,7 +3,7 @@
 namespace AppBundle\Service\JsonApi\Parser\Request\User;
 
 
-use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
+use AppBundle\Service\JsonApi\Deserializer\JsonApiRequestDeserializer;
 use AppBundle\Service\JsonApi\Parser\Request\AbstractRequestParser;
 use AppBundle\Service\JsonApi\Parser\Request\ValidatedRequest;
 use AppBundle\Service\Validator\EmailValidator;
@@ -35,7 +35,7 @@ class NewUserRequestParser extends AbstractRequestParser
      * @param MobileNumberValidator $mnv
      */
     public function __construct(
-        JsonRequestDeserializer $jrd,
+        JsonApiRequestDeserializer $jrd,
         UsernameValidator $unv,
         PlainPasswordValidator $ppv,
         EmailValidator $ev,
