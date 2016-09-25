@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="user_email_verification", uniqueConstraints={@ORM\UniqueConstraint(name="email_user", columns={"user_id", "email_hash"})}))
  */
-class UserEmailNumberVerification
+class UserEmailVerification
 {
     /**
      * @ORM\Column(type="integer")
