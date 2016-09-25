@@ -1,10 +1,16 @@
 <?php
 
-namespace AppBundle\Service\JsonApi\Parser\Request;
+namespace AppBundle\Service\JsonApi\Parser\Request\UserGroup;
 
 
+use AppBundle\Service\JsonApi\Parser\Request\AbstractRequestParser;
+use AppBundle\Service\JsonApi\Parser\Request\ValidatedRequest;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class NewUserGroupRequestParser
+ * @package AppBundle\Service\JsonApi\Parser\Request\UserGroup
+ */
 class NewUserGroupRequestParser extends AbstractRequestParser
 {
     /**

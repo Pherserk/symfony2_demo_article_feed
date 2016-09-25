@@ -20,9 +20,11 @@ class UserRoleControllerTest extends ApiWebTestCase
 
         $loggedUser = $referenceRepository->getReference('super-admin');
 
-        $payLoad =  [
-            'role' => 'ROLE_TEST',
-        ];
+        $payLoad = new \stdClass();
+        $payLoad->data = new \stdClass();
+        $payLoad->data->type = 'userRoles';
+        $payLoad->data->attributes = new \stdClass();
+        $payLoad->data->attributes->role = 'ROLE_NEW_TEST';
 
         $data = json_encode($payLoad);
 
@@ -35,11 +37,12 @@ class UserRoleControllerTest extends ApiWebTestCase
         $client->request('POST', '/api/user-roles', [], [], $headers, $data);
         $response = $client->getResponse();
 
+
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
 
         $decodedResponse = json_decode($response->getContent());
 
-        self::assertEquals('ROLE_TEST', $decodedResponse->role);
+        self::assertEquals('ROLE_NEW_TEST', $decodedResponse->data->attributes->role);
     }
 
     public function testDeleteAction()
@@ -54,10 +57,8 @@ class UserRoleControllerTest extends ApiWebTestCase
 
         $loggedUser = $referenceRepository->getReference('super-admin');
         $roleToDelete = $referenceRepository->getReference('allowed-to-switch-role');
-
-        $payLoad = [];
-
-        $data = json_encode($payLoad);
+        
+        $data = json_encode(null);
 
         $client = static::createClient();
 

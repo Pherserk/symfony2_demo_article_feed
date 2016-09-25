@@ -1,11 +1,10 @@
 <?php
 
-namespace AppBundle\Tests\Service\JsonApi\Parser\Request;
+namespace AppBundle\Tests\Service\JsonApi\Parser\Request\UserGroup;
 
 
-use AppBundle\Service\JsonApi\Deserializer\JsonRequestDeserializer;
-use AppBundle\Service\JsonApi\Parser\Request\NewUserGroupRequestParser;
-use AppBundle\Service\JsonApi\Validator\JsonRequestValidator;
+use AppBundle\Service\JsonApi\Deserializer\JsonApiRequestDeserializer;
+use AppBundle\Service\JsonApi\Parser\Request\UserGroup\NewUserGroupRequestParser;
 use Symfony\Component\HttpFoundation\Request;
 
 class NewUserGroupRequestParserTest extends \PHPUnit_Framework_TestCase
@@ -22,7 +21,7 @@ class NewUserGroupRequestParserTest extends \PHPUnit_Framework_TestCase
         $request = self::prophesize(Request::class);
         $request->getContent()->willReturn(json_encode($payLoad));
 
-        $jsonRequesDeserializer = new JsonRequestDeserializer();
+        $jsonRequesDeserializer = new JsonApiRequestDeserializer();
         $newUserGroupRequestParser = new NewUserGroupRequestParser($jsonRequesDeserializer);
 
         $parsedRequest = $newUserGroupRequestParser->parse($request->reveal());

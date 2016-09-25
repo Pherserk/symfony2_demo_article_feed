@@ -17,12 +17,17 @@ class UserControllerTest extends ApiWebTestCase
             ])
             ->getReferenceRepository();
 
-        $payLoad =  [
-            'username' => 'JohnDoe',
-            'password' => 'J0hNd03sP4sSw0rD',
-            'email' => 'john.doe@example.com',
-            'mobileNumber' => '+3933312345678',
-        ];
+        $payLoad = new \stdClass();
+
+        $attributes = new \stdClass();
+        $attributes->username = 'JohnDoe';
+        $attributes->password = 'J0hNd03sP4sSw0rD';
+        $attributes->email = 'john.doe@example.com';
+        $attributes->mobileNumber = '+3933312345678';
+
+        $payLoad->data = new \stdClass();
+        $payLoad->data->type = 'users';
+        $payLoad->data->attributes = $attributes;
 
         $client = static::createClient();
 
@@ -38,9 +43,9 @@ class UserControllerTest extends ApiWebTestCase
 
         $decodedResponse = json_decode($response->getContent());
 
-        $this->assertEquals('JohnDoe', $decodedResponse->username);
-        $this->assertEquals('john.doe@example.com', $decodedResponse->email);
-        $this->assertEquals('+3933312345678', $decodedResponse->mobile_number);
+        $this->assertEquals('JohnDoe', $decodedResponse->data->attributes->username);
+        $this->assertEquals('john.doe@example.com', $decodedResponse->data->attributes->email);
+        $this->assertEquals('+3933312345678', $decodedResponse->data->attributes->mobile_number);
 
         $this->markTestSkipped('Should not see confirmation_pin in the serialized object');
         $this->assertObjectNotHasAttribute('confirmation_pin', $decodedResponse);
@@ -78,27 +83,49 @@ class UserControllerTest extends ApiWebTestCase
 
     public function providePayload()
     {
+        $payLoad = new \stdClass();
+
+        $attributes = new \stdClass();
+        $attributes->email = 'john.doe@example.com';
+        $attributes->mobileNumber = '3933312345678';
+
+        $payLoad->data = new \stdClass();
+        $payLoad->data->type = 'users';
+        $payLoad->data->attributes = $attributes;
+
+        $payLoad2 = new \stdClass();
+
+        $attributes2 = new \stdClass();
+        $attributes2->username = 'JohnDoe';
+        $attributes2->password = 'thePassword';
+        $attributes2->email = 'john.doe@example.com';
+        $attributes2->mobileNumber = '+3933312345678';
+
+        $payLoad2->data = new \stdClass();
+        $payLoad2->data->type = 'users';
+        $payLoad2->data->attributes = $attributes2;
+
         return [
             [
+                $payLoad,
                 [
-                    'email' => 'john.doe@example.com',
-                    'mobileNumber' => '33312345678',
-                ],
-                [
-                    'username' => ['Missing field'],
-                    'password' => ['Missing field'],
-                    'mobileNumber' => ['Must start with + sign'],
+                    'data' => [
+                        'attributes' => [
+                            'username' => ['Missing field'],
+                            'password' => ['Missing field'],
+                            'mobileNumber' => ['Must start with + sign'],
+                        ],
+                    ],
                 ],
             ],
             [
+                $payLoad2,
                 [
-                    'username' => 'JohnDoe',
-                    'password' => 'thePassword',
-                    'email' => 'john.doe@example.com',
-                    'mobileNumber' => '+3933312345678',
-                ],
-                [
-                    'password' => ['Must contain at least 1 number'],
+                    'data' => [
+                        'attributes' => [
+                            'password' => ['Must contain at least 1 number'],
+                        ],
+                    ],
                 ],
             ],
         ];

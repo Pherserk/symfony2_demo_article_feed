@@ -1,0 +1,39 @@
+services:
+    json_api.parser.request.new_user:
+        class: AppBundle\Service\JsonApi\Parser\Request\User\NewUserRequestParser
+        arguments:
+            jrd: '@json_api.deserializer.json_api_request_deserializer'
+            unv: '@validator.username_validator'
+            ppv: '@validator.plain_password_validator'
+            ev: '@validator.email_validator'
+            mnv: '@validator.mobile_number_validator'
+
+    json_api.parser.request.new_user_role:
+        class: AppBundle\Service\JsonApi\Parser\Request\UserRole\NewUserRoleRequestParser
+        arguments:
+            jrd: '@json_api.deserializer.json_api_request_deserializer'
+
+    json.api.parser.request.delete_user_role:
+        class: AppBundle\Service\JsonApi\Parser\Request\UserRole\DeleteUserRoleRequestParser
+        arguments:
+            jrd: '@json_api.deserializer.json_api_request_deserializer'
+
+    json_api.parser.request.new_user_group:
+        class: AppBundle\Service\JsonApi\Parser\Request\UserGroup\NewUserGroupRequestParser
+        arguments:
+            jrd: '@json_api.deserializer.json_api_request_deserializer'
+
+    json.api.parser.request.delete_user_group:
+        class: AppBundle\Service\JsonApi\Parser\Request\UserGroup\DeleteUserGroupRequestParser
+        arguments:
+            jrd: '@json_api.deserializer.json_api_request_deserializer'
+
+    json.api.parser.request.update_user_group:
+        class: AppBundle\Service\JsonApi\Parser\Request\UserGroup\UpdateUserGroupRequestParser
+        arguments:
+            jrd: '@json_api.deserializer.json_api_request_deserializer'
+
+    json.api.parser.request.user_role_to_user_group:
+        class: AppBundle\Service\JsonApi\Parser\Request\UserGroup\UserRoleToUserGroupRequestParser
+        arguments:
+            jrd: '@json_api.deserializer.json_api_request_deserializer'
