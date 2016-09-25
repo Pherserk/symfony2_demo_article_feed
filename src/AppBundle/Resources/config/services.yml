@@ -1,6 +1,6 @@
 imports:
     - { resource: 'json_api.request_parsers.yml' }
-    - { resource: 'validators.yml' }
+    - { resource: 'custom_validators.yml' }
 
 parameters:
   app.api.route.prefix: 'app_api'
