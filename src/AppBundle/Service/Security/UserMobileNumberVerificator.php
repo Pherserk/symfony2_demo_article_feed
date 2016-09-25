@@ -4,7 +4,6 @@ namespace AppBundle\Service\Security;
 
 
 use AppBundle\Entity\User;
-use AppBundle\Entity\UserEmailNumberVerification;
 use AppBundle\Entity\UserMobileNumberVerification;
 use Doctrine\ORM\EntityManagerInterface;
 
