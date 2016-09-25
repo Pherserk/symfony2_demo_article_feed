@@ -204,11 +204,7 @@ class UserGroupController extends Controller
         $userRoles = $userRoleRepository->findById($userRoleIds);
 
         $foundUserRoleIds = [];
-        $notAssociatedRoleIds = [];
         foreach ($userRoles as $userRole) {
-            if (!$userGroup->hasRole($userRole)) {
-                $notAssociatedRoleIds[] = $userRole->getId();
-            }
             $userGroup->removeRole($userRole);
             $foundUserRoleIds[] = $userRole->getId();
         }
@@ -217,10 +213,6 @@ class UserGroupController extends Controller
 
         if (count($missingRoleIds) !== 0) {
             return new JsonResponse('Missing user roles:, %s', implode(', ', $missingRoleIds), Response::HTTP_BAD_REQUEST);
-        }
-
-        if (count($notAssociatedRoleIds) !== 0) {
-            return new JsonResponse('User roles:, %s association not found on user group', implode(', ', $notAssociatedRoleIds), Response::HTTP_BAD_REQUEST);
         }
 
         $em->persist($userGroup);
