@@ -11,17 +11,14 @@ class DeleteUserRoleRequestParserTest extends \PHPUnit_Framework_TestCase
 {
     public function testParse()
     {
-        $payLoad = new \stdClass();
-        $payLoad->data = new \stdClass();
-
         /** @var Request $request */
         $request = self::prophesize(Request::class);
-        $request->getContent()->willReturn(json_encode($payLoad));
+        $request->getContent()->willReturn(json_encode(null));
 
         $parser = new DeleteUserRoleRequestParser(new JsonApiRequestDeserializer());
 
         $parsedRequest = $parser->parse($request->reveal());
 
-        self::markTestIncomplete('PayLoad is not complete, response is not complete');
+        self::assertNull($parsedRequest->getData());
     }
 }

@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class JsonApiRequestDeserializer
 {
-    public function deserialize(Request $request, $assoc = false)
+    public function deserialize(Request $request)
     {
-        return json_decode($request->getContent(), $assoc);
+        return json_decode($request->getContent());
     }
 }

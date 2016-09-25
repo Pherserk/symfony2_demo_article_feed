@@ -40,7 +40,7 @@ class UserRoleController extends Controller
             return new JsonResponse($parsedRequest->getErrors(), Response::HTTP_BAD_REQUEST);
         }
 
-        $userRole = new UserRole($data['role']);
+        $userRole = new UserRole($data->data->attributes->role);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($userRole);

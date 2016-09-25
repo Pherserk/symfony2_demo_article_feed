@@ -13,6 +13,9 @@ class NewUserRoleRequestParserTest extends \PHPUnit_Framework_TestCase
     {
         $payLoad = new \stdClass();
         $payLoad->data = new \stdClass();
+        $payLoad->data->type = 'userRoles';
+        $payLoad->data->attributes = new \stdClass();
+        $payLoad->data->attributes->role = 'ROLE_NEW_TEST';
 
         /** @var Request $request */
         $request = self::prophesize(Request::class);
@@ -22,6 +25,6 @@ class NewUserRoleRequestParserTest extends \PHPUnit_Framework_TestCase
 
         $parsedRequest = $parser->parse($request->reveal());
 
-        self::markTestIncomplete('PayLoad is not complete, response is not complete');
+        self::assertEquals('ROLE_NEW_TEST', $parsedRequest->getData()->data->attributes->role);
     }
 }
