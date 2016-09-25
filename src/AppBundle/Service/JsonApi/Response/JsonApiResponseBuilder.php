@@ -12,8 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class JsonApiResponseBuilder
 {
-    /** @var JsonApiSerializer $serializer */
-    private $serializer;
+    /** @var JsonApiSerializer $jsonApiSserializer */
+    private $jsonApiSserializer;
 
     /**
      * JsonApiResponseBuilder constructor.
@@ -21,7 +21,7 @@ class JsonApiResponseBuilder
      */
     public function __construct(JsonApiSerializer $serializer)
     {
-        $this->serializer = $serializer;
+        $this->jsonApiSserializer = $serializer;
     }
 
     /**
@@ -32,7 +32,7 @@ class JsonApiResponseBuilder
      */
     public function make($payLoad, $type, $statusCode)
     {
-        $serializedPayload = $this->serializer->serialize($payLoad, $type);
+        $serializedPayload = $this->jsonApiSserializer->serialize($payLoad, $type);
 
         $response = new Response();
         $response->setContent($serializedPayload);

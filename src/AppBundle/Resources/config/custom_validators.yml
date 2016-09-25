@@ -15,14 +15,14 @@ parameters:
     validator.plain_password.minimum_lowercase_chars_count: 1
     validator.plain_password.minimum_special_chars_count: 1
     validator.plain_password.admitted_special_chars:
-       - [name: 'dot', char: '.']
-       - [name: 'hypen', char: '-']
-       - [name: 'underscore', char: '_']
-       - [name: 'percent', char: '%']
-       - [name: 'ampersand', char: '&']
-       - [name: 'dollar', char: '$']
-       - [name: 'tilde', char: '~']
-       - [name: 'asterisk', char: '*']
+        - [name: 'dot', char: '.']
+        - [name: 'hypen', char: '-']
+        - [name: 'underscore', char: '_']
+        - [name: 'percent', char: '%']
+        - [name: 'ampersand', char: '&']
+        - [name: 'dollar', char: '$']
+        - [name: 'tilde', char: '~']
+        - [name: 'asterisk', char: '*']
 
 services:
     validator.username_validator:
