@@ -32,7 +32,7 @@ class UserMobileNumberVerificator
      */
     public function verify(User $user, $mobileNumber, $pin)
     {
-        if ($user->getConfirmationPin() === $pin && $user->getMobileNumber() === $mobileNumber) {
+        if ($user->getConfirmationPin()->getPin() === $pin && $user->getMobileNumber() === $mobileNumber) {
             $verification = $this->em
                 ->getRepository(UserMobileNumberVerification::class)
                 ->findOneBy(['user' => $user, 'mobileNumber' => $mobileNumber]);

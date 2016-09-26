@@ -32,9 +32,9 @@ class UserEmailVerificator
      */
     public function verify(User $user, $email, $token)
     {
-        if ($user->getConfirmationToken() === $token && $user->getEmail() === $email) {
+        if ($user->getConfirmationToken()->getToken() === $token && $user->getEmail() === $email) {
             $verification = $this->em
-                ->getRepository(UserEmailVerificator::class)
+                ->getRepository(UserEmailVerification::class)
                 ->findOneBy(['user' => $user, 'email' => $email]);
 
             if ($verification === null) {
