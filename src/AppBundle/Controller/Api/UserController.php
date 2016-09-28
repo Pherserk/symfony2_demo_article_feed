@@ -64,4 +64,26 @@ class UserController extends Controller
                 Response::HTTP_CREATED
             );
     }
+
+    /**
+     * @Route("/confirmEmail", options={"expose"=true})
+     * @Method("POST")
+     * @Security("is_granted('ROLE_USER')")
+     */
+    public function confirmEmailCommandAction(Request $request)
+    {
+        $parsedRequest = $this->get('json_rpc.parser.request.confirm_email')
+            ->parse($request);
+    }
+
+    /**
+     * @Route("/confirmMobileNumber", options={"expose"=true})
+     * @Method("POST")
+     * @Security("is_granted('ROLE_USER')")
+     */
+    public function confirmMobileNumberCommandAction(Request $request)
+    {
+        $parsedRequest = $this->get('json_rpc.parser.request.confirm_mobile_number')
+            ->parse($request);
+    }
 }

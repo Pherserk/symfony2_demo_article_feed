@@ -1,0 +1,6 @@
+services:
+    json_rpc.parser.request.confirm_email:
+        class: AppBundle\Service\JsonRpc\Parser\Request\User\ConfirmEmailCommandRequestActionParser
+
+    json_rpc.parser.request.confirm_mobile_number:
+        class: AppBundle\Service\JsonRpc\Parser\Request\User\ConfirmMobileNumberCommandRequestActionParser
